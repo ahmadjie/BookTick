@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -9,6 +9,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
+import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -23,6 +24,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Header() {
+	//check token
 	const token = localStorage.getItem('token');
 	let auth = false;
 	if (token !== null) {
@@ -30,9 +32,11 @@ export default function Header() {
 	}
 
 	const classes = useStyles();
-
+	//style menu item
 	const [ anchorEl, setAnchorEl ] = React.useState(null);
 	const open = Boolean(anchorEl);
+	//set user id
+	const [ user, setUser ] = useState([]);
 
 	const handleMenu = (event) => {
 		setAnchorEl(event.currentTarget);
@@ -41,10 +45,25 @@ export default function Header() {
 	const handleClose = () => {
 		setAnchorEl(null);
 	};
+	//handle click logout
 	const onSubmit = () => {
 		localStorage.clear();
-		window.location = '/home';
 	};
+
+	//component didMount
+	useEffect(() => {
+		const fetchUser = async () => {
+			const res = await axios({
+				method: 'GET',
+				url: 'http://localhost:7000/api/v1/profile/',
+				headers: {
+					Authorization: 'Bearer ' + token
+				}
+			});
+			setUser(res.data.data);
+		};
+		fetchUser();
+	}, []);
 
 	return (
 		<div>
@@ -64,7 +83,7 @@ export default function Header() {
 								onClick={handleMenu}
 								color="inherit"
 							>
-								<Avatar src="https://pbs.twimg.com/profile_images/1130032650712801280/223KYI_z_400x400.jpg" />
+								<Avatar src={`${user.image}`} />
 							</IconButton>
 							<Menu
 								id="menu-appbar"
@@ -81,14 +100,15 @@ export default function Header() {
 								open={open}
 								onClose={handleClose}
 							>
-								<MenuItem onClick={handleClose}>Profile</MenuItem>
-								<MenuItem onClick={handleClose}>My account</MenuItem>
 								<MenuItem onClick={handleClose}>
-									<Link
-										to="/login"
-										style={{ textDecoration: 'none', color: 'black' }}
-										onClick={onSubmit}
-									>
+									{/* LINK USER BY ID */}
+									<Link to={`/profile/${user.id}`} style={{ textDecoration: 'none', color: 'black' }}>
+										Profile
+									</Link>
+								</MenuItem>
+
+								<MenuItem onClick={handleClose}>
+									<Link to="/" style={{ textDecoration: 'none', color: 'black' }} onClick={onSubmit}>
 										Logout
 									</Link>
 								</MenuItem>
@@ -114,40 +134,3 @@ export default function Header() {
 		</div>
 	);
 }
-// import React, { Component } from 'react';
-// import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
-// import Grid from '@material-ui/core/Grid';
-// import Typography from '@material-ui/core/Typography';
-// import Button from '@material-ui/core/Button';
-// export default class Header extends Component {
-// 	render() {
-// 		return (
-// 			<div
-// 				style={{
-// 					width: '100%',
-// 					backgroundColor: '#ff5252',
-// 					boxShadow: '2px 2px 5px 0px rgba(0,0,0,0.75)',
-// 					paddingBottom: '1%'
-// 				}}
-// 			>
-// 				<Grid container>
-// 					<Grid item xs={9}>
-// 						<Link to="/" style={{ textDecoration: 'none', color: 'black' }}>
-// 							<Typography variant="h5" style={{ marginLeft: '5%' }}>
-// 								DUMB-TICK
-// 							</Typography>
-// 						</Link>
-// 					</Grid>
-// 					<Grid item xs={3}>
-// 						<Link to="/login" style={{ textDecoration: 'none', color: 'black' }}>
-// 							<Button color="inherit">Login</Button>
-// 						</Link>
-// 						<Link to="/register" style={{ textDecoration: 'none', color: 'black' }}>
-// 							<Button color="inherit">Register</Button>
-// 						</Link>
-// 					</Grid>
-// 				</Grid>
-// 			</div>
-// 		);
-// 	}
-// }

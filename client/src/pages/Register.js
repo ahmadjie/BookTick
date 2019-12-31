@@ -57,33 +57,87 @@ export default class Register extends Component {
 	};
 
 	render() {
-		return (
-			<div style={{ display: 'flex',justifyContent: 'center',alignItems: 'center',height: '100vh', backgroundColor: '#ff5252'}}>
-				<Grid item xs={12}>
-					<Card className={cardStyles.card} style={{ margin: 'auto', width: '50%', backgroundColor: '#fbe9e7', color: 'black' }}>
-						<CardContent>
-							<Grid container direction="column" justify="center" alignItems="center">
-								<form onSubmit={this.onSubmit} autoComplete="off" fullWidth style={{ textAlign: 'center', itemAlign: 'center', marginTop: '4%' }}>
-									<div style={{ width: '100%', margin: 'auto' }}>
-										<Typography variant="h4">Register DumbTick</Typography>
-									</div>
-									<TextField id="standard-basic" value={this.state.email} onChange={this.onChangeEmail} label="Email" required style={{ width: '100%' }}/>
-									<br />
-									<TextField id="standard-basic" value={this.state.name} onChange={this.onChangeName} label="Name" required style={{ width: '100%' }}/>
-									<br />
-									<TextField id="standard-basic" value={this.state.username} onChange={this.onChangeUsername}label="Username" required style={{ width: '100%' }}/>
-									<br />
-									<TextField id="standard-basic" label="Password" required type="password" value={this.state.password} onChange={this.onChangePassword} style={{ width: '100%' }}/>
-									<br />
-									<Button variant="outlined" type="submit" style={{ marginTop: '5%', width: '100%' }}>
-										Register
-									</Button>
-								</form>
-							</Grid>
-						</CardContent>
-					</Card>
-				</Grid>
-			</div>
-		);
+		const checkToken = localStorage.getItem('token');
+		if (checkToken) {
+			window.location = '/home';
+		} else {
+			return (
+				<div
+					style={{
+						display: 'flex',
+						justifyContent: 'center',
+						alignItems: 'center',
+						height: '100vh',
+						backgroundColor: '#ff5252'
+					}}
+				>
+					<Grid item xs={12}>
+						<Card
+							className={cardStyles.card}
+							style={{ margin: 'auto', width: '50%', backgroundColor: '#fbe9e7', color: 'black' }}
+						>
+							<CardContent>
+								<Grid container direction="column" justify="center" alignItems="center">
+									<form
+										onSubmit={this.onSubmit}
+										autoComplete="off"
+										fullWidth
+										style={{ textAlign: 'center', itemAlign: 'center', marginTop: '4%' }}
+									>
+										<div style={{ width: '100%', margin: 'auto' }}>
+											<Typography variant="h4">Register DumbTick</Typography>
+										</div>
+										<TextField
+											id="standard-basic"
+											value={this.state.email}
+											onChange={this.onChangeEmail}
+											label="Email"
+											required
+											style={{ width: '100%' }}
+										/>
+										<br />
+										<TextField
+											id="standard-basic"
+											value={this.state.name}
+											onChange={this.onChangeName}
+											label="Name"
+											required
+											style={{ width: '100%' }}
+										/>
+										<br />
+										<TextField
+											id="standard-basic"
+											value={this.state.username}
+											onChange={this.onChangeUsername}
+											label="Username"
+											required
+											style={{ width: '100%' }}
+										/>
+										<br />
+										<TextField
+											id="standard-basic"
+											label="Password"
+											required
+											type="password"
+											value={this.state.password}
+											onChange={this.onChangePassword}
+											style={{ width: '100%' }}
+										/>
+										<br />
+										<Button
+											variant="outlined"
+											type="submit"
+											style={{ marginTop: '5%', width: '100%' }}
+										>
+											Register
+										</Button>
+									</form>
+								</Grid>
+							</CardContent>
+						</Card>
+					</Grid>
+				</div>
+			);
+		}
 	}
 }

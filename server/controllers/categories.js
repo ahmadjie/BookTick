@@ -9,3 +9,17 @@ exports.index = (req, res) => {
 		}
 	}).then((data) => res.send(data));
 };
+
+exports.byId = (req, res) => {
+	const { id } = req.params;
+	Categories.findOne({
+		where: {
+			id
+		},
+		attributes: {
+			exclude: [ 'createdAt', 'updatedAt' ]
+		}
+	}).then((data) => {
+		res.send(data);
+	});
+};
