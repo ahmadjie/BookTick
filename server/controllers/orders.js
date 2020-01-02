@@ -9,9 +9,10 @@ exports.addOrder = (req, res) => {
 	Order.create({
 		quantity: quantity,
 		totalPrice: totalPrice,
-		attachment: attachment,
+		attachment: 'default',
 		eventId: eventId,
-		status: 'pending'
+		status: 'pending',
+		buyerId: tokenUserId
 	}).then((data) =>
 		res.send({
 			message: 'success',
@@ -23,34 +24,65 @@ exports.addOrder = (req, res) => {
 exports.index = (req, res) => {
 	Order.findAll({
 		attributes: {
-			exclude: [ 'createdAt', 'updatedAt', 'eventId' ]
+			exclude: [ 'createdAt', 'updatedAt', 'eventId', 'categoryId', 'userId', 'buyerId' ]
 		},
-		include: {
-			attributes: {
-				exclude: [ 'createdAt', 'updatedAt', 'categoryId', 'userId' ]
-			},
-			model: Events,
-			as: 'event',
-			include: [
-				{
-					model: Category,
-					as: 'category',
-					attributes: {
-						exclude: [ 'createdAt', 'updatedAt' ]
-					}
-				},
-				{
-					model: User,
-					as: 'createdBy',
-					attributes: {
-						exclude: [ 'role', 'password', 'createdAt', 'updatedAt', 'username' ]
-					}
+		include: [
+			{
+				model: Events,
+				as: 'event',
+				attributes: {
+					exclude: [ 'createdAt', 'updatedAt', 'categoryId', 'userId', 'urlmaps', 'endTime', 'image' ]
 				}
-			]
-		}
+			},
+			{
+				model: User,
+				as: 'buyer',
+				attributes: [ 'id', 'name' ]
+			}
+		]
 	}).then((data) => {
 		res.send(data);
 	});
+};
+
+exports.orderByUser = (req, res) => {
+	const { buyerId } = req.params;
+	Order.findAll({
+		where: {
+			buyerId
+		},
+		attributes: [ 'id', 'status', 'totalPrice', 'quantity' ],
+		include: [
+			{
+				model: Events,
+				as: 'event',
+				attributes: [ 'id', 'price', 'description', 'title', 'image', 'address', 'starTime' ]
+			},
+			{
+				model: User,
+				as: 'buyer',
+				attributes: [ 'id', 'name' ]
+			}
+		]
+	})
+		.then((data) => {
+			if (data.length > 0) {
+				res.status(200).send(data);
+			} else if (data.length <= 0) {
+				res.status(200).send({
+					message: 'You Have not order'
+				});
+			} else {
+				res.send({
+					message: 'error'
+				});
+			}
+		})
+		.catch((err) => {
+			res.send({
+				message: err
+			});
+		});
 };
 
 // exports.orderPending = (req, res) => {

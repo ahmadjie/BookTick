@@ -103,3 +103,32 @@ export const addEvent = (event) => {
 			alert('Please Login');
 		});
 };
+
+export const orderEvent = (order) => {
+	const getToken = localStorage.getItem('token');
+	return axios
+		.post(
+			'http://localhost:7000/api/v1/order',
+			{
+				quantity: order.quantity,
+				totalPrice: order.totalPrice,
+				eventId: order.eventId
+			},
+			{
+				headers: {
+					Authorization: 'Bearer ' + getToken
+				}
+			}
+		)
+		.then((response) => {
+			if (response) {
+				// localStorage.setItem('token', response.data.data.token);
+				// return response.data;
+			} else {
+				alert('eror');
+			}
+		})
+		.catch((err) => {
+			// console.log(err);
+		});
+};

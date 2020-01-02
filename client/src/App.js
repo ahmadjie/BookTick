@@ -23,7 +23,7 @@ export default class App extends Component {
 						<Route path="/addevent">
 							<AddEvent />
 						</Route>
-						<Route path="/myticket">
+						<Route path="/user/:id/orders">
 							<MyTicket />
 						</Route>
 						<Route path="/profile/:id">

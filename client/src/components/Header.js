@@ -108,7 +108,10 @@ export default function Header() {
 									</Link>
 								</MenuItem>
 								<MenuItem onClick={handleClose}>
-									<Link to="/myticket" style={{ textDecoration: 'none', color: 'black' }}>
+									<Link
+										to={`/user/${user.id}/orders`}
+										style={{ textDecoration: 'none', color: 'black' }}
+									>
 										My Ticket
 									</Link>
 								</MenuItem>

@@ -7,7 +7,8 @@ module.exports = (sequelize, DataTypes) => {
 			totalPrice: DataTypes.INTEGER,
 			status: DataTypes.STRING,
 			attachment: DataTypes.STRING,
-			eventId: DataTypes.INTEGER
+			eventId: DataTypes.INTEGER,
+			buyerId: DataTypes.INTEGER
 		},
 		{}
 	);
@@ -16,6 +17,11 @@ module.exports = (sequelize, DataTypes) => {
 		order.belongsTo(models.events, {
 			foreignKey: 'eventId',
 			as: 'event',
+			sourceKey: 'id'
+		});
+		order.belongsTo(models.users, {
+			foreignKey: 'buyerId',
+			as: 'buyer',
 			sourceKey: 'id'
 		});
 	};

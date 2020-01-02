@@ -22,9 +22,17 @@ module.exports = {
 			},
 			eventId: {
 				type: Sequelize.INTEGER,
-				allowNull: false,
 				references: {
 					model: 'events',
+					key: 'id'
+				},
+				onUpdate: 'cascade',
+				onDelete: 'cascade'
+			},
+			buyerId: {
+				type: Sequelize.INTEGER,
+				references: {
+					model: 'users',
 					key: 'id'
 				},
 				onUpdate: 'cascade',

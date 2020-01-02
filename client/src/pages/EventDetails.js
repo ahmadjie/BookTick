@@ -11,8 +11,8 @@ import MailOutlineIcon from '@material-ui/icons/MailOutline';
 import PermContactCalendarIcon from '@material-ui/icons/PermContactCalendar';
 import EventNoteIcon from '@material-ui/icons/EventNote';
 import { withRouter } from 'react-router';
+import { orderPost, orderEvent } from '../config/api';
 import axios from 'axios';
-import { borderRadius } from '@material-ui/system';
 
 class EventDetails extends Component {
 	state = {
@@ -39,6 +39,18 @@ class EventDetails extends Component {
 		} else {
 			this.setState({ count: this.state.count - 1 });
 		}
+	};
+
+	orderPost = () => {
+		const { match } = this.props;
+		const order = {
+			quantity: this.state.count,
+			totalPrice: this.state.event.price * this.state.count,
+			eventId: match.params.id
+		};
+		orderEvent(order).then(() => {
+			window.location = '/home';
+		});
 	};
 	render() {
 		return (
@@ -86,6 +98,7 @@ class EventDetails extends Component {
 									variant="outlined"
 									size="small"
 									style={{ backgroundColor: '#ff5252', color: 'white', marginLeft: '2%' }}
+									onClick={this.orderPost}
 								>
 									BUY
 								</Button>

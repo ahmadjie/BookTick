@@ -40,6 +40,7 @@ app.group('/api/v1', (router) => {
 	router.get('/profile', middleware.checkAuth, userController.userByLogin);
 	//lihat seluruh order
 	router.get('/orders', orderController.index);
+	router.get('/user/:buyerId/orders', orderController.orderByUser);
 
 	//favorites
 	router.get('/user/:userId/favorite', favoriteController.favoriteByUser);
