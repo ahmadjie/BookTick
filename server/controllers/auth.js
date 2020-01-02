@@ -37,14 +37,12 @@ exports.login = (req, res) => {
 };
 
 exports.register = (req, res) => {
-	const { name, username, email, password } = req.body;
-
+	const { name, username, email, password, image } = req.body;
 	User.create({
 		name: name,
 		phone: '+62',
 		email: email,
-		image:
-			'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTRGk6IBS2S51VowefAg_zezQ5FFYar9w8Ehq_lj6n1FvvcjgU9&s',
+		image: image,
 		username: username,
 		password: password,
 		role: 2

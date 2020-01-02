@@ -2,11 +2,13 @@ import React, { Component } from 'react';
 import Header from '../components/Header';
 import { Grid, CardMedia, Button, Typography, Card, CardActionArea, CardContent, Avatar } from '@material-ui/core';
 import { withRouter } from 'react-router';
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import axios from 'axios';
 
 class Profile extends Component {
 	state = {
 		user: [],
+		favorites: [],
 		error: false
 	};
 	componentDidMount() {
@@ -14,9 +16,13 @@ class Profile extends Component {
 		axios.get(`http://localhost:7000/api/v1/profile/${match.params.id}`).then((responses) => {
 			this.setState({ user: responses.data });
 		});
+		axios.get(`http://localhost:7000/api/v1/user/${match.params.id}/favorite`).then((responses) => {
+			if (responses.data.length > 0) {
+				this.setState({ favorites: responses.data });
+			}
+		});
 	}
 	render() {
-		console.log(this.state.user);
 		return (
 			<div style={{ backgroundColor: '#fbe9e7' }}>
 				<Header />
@@ -72,139 +78,65 @@ class Profile extends Component {
 					</div>
 
 					{/* FAVORITE */}
+
 					<div style={{ marginTop: '5%', color: '#ff5252' }}>
 						<h1>Favorite</h1>
 					</div>
 					<div style={{ width: '100%' }}>
 						<Grid container style={{ marginTop: '2%' }}>
-							<Grid item xs={4} style={{ marginBottom: '2%' }}>
-								{/* <Link to={`/event/?${item.id}`} style={{ textDecoration: 'none', color: 'black' }}> */}
-								<div style={{ margin: '5px' }}>
-									<Card>
-										<CardActionArea>
-											<Button
-												disabled
-												style={{
-													position: 'absolute',
-													top: '10px',
-													right: '10px',
-													backgroundColor: 'white',
-													padding: '10px'
-												}}
-											>
-												<Typography
-													variant="body1"
-													color="textSecondary"
-													style={{ color: '#ff5252' }}
-												>
-													123 harga
-												</Typography>
-											</Button>
-											<CardMedia
-												component="img"
-												height="250px"
-												image="https://pbs.twimg.com/profile_images/1130032650712801280/223KYI_z_400x400.jpg"
-											/>
-											<CardContent>
-												<Typography gutterBottom variant="h5" component="h2">
-													judull...
-												</Typography>
+							{this.state.favorites.map((favorite) => {
+								return (
+									<Grid item xs={4} style={{ marginBottom: '2%' }}>
+										<Link
+											to={`/event/${favorite.eventId}`}
+											style={{ textDecoration: 'none', color: 'black' }}
+										>
+											<div style={{ margin: '5px' }}>
+												<Card>
+													<CardActionArea>
+														<Button
+															disabled
+															style={{
+																position: 'absolute',
+																top: '10px',
+																right: '10px',
+																backgroundColor: 'white',
+																padding: '10px'
+															}}
+														>
+															<Typography
+																variant="body1"
+																color="textSecondary"
+																style={{ color: '#ff5252' }}
+															>
+																{favorite.event.price}
+															</Typography>
+														</Button>
+														<CardMedia
+															component="img"
+															height="250px"
+															image={`${favorite.event.image}`}
+														/>
+														<CardContent>
+															<Typography gutterBottom variant="h5" component="h2">
+																{favorite.event.title}
+															</Typography>
 
-												<Typography variant="body2" color="textSecondary" component="p">
-													descript
-												</Typography>
-											</CardContent>
-										</CardActionArea>
-									</Card>
-								</div>
-
-								{/* </Link> */}
-							</Grid>
-							<Grid item xs={4} style={{ marginBottom: '2%' }}>
-								{/* <Link to={`/event/?${item.id}`} style={{ textDecoration: 'none', color: 'black' }}> */}
-								<div style={{ margin: '5px' }}>
-									<Card>
-										<CardActionArea>
-											<Button
-												disabled
-												style={{
-													position: 'absolute',
-													top: '10px',
-													right: '10px',
-													backgroundColor: 'white',
-													padding: '10px'
-												}}
-											>
-												<Typography
-													variant="body1"
-													color="textSecondary"
-													style={{ color: '#ff5252' }}
-												>
-													123 harga
-												</Typography>
-											</Button>
-											<CardMedia
-												component="img"
-												height="250px"
-												image="https://pbs.twimg.com/profile_images/1130032650712801280/223KYI_z_400x400.jpg"
-											/>
-											<CardContent>
-												<Typography gutterBottom variant="h5" component="h2">
-													judull...
-												</Typography>
-
-												<Typography variant="body2" color="textSecondary" component="p">
-													descript
-												</Typography>
-											</CardContent>
-										</CardActionArea>
-									</Card>
-								</div>
-
-								{/* </Link> */}
-							</Grid>
-							<Grid item xs={4} style={{ marginBottom: '2%' }}>
-								{/* <Link to={`/event/?${item.id}`} style={{ textDecoration: 'none', color: 'black' }}> */}
-								<div style={{ margin: '5px' }}>
-									<Card>
-										<CardActionArea>
-											<Button
-												disabled
-												style={{
-													position: 'absolute',
-													top: '10px',
-													right: '10px',
-													backgroundColor: 'white',
-													padding: '10px'
-												}}
-											>
-												<Typography
-													variant="body1"
-													color="textSecondary"
-													style={{ color: '#ff5252' }}
-												>
-													123 harga
-												</Typography>
-											</Button>
-											<CardMedia
-												component="img"
-												height="250px"
-												image="https://pbs.twimg.com/profile_images/1130032650712801280/223KYI_z_400x400.jpg"
-											/>
-											<CardContent>
-												<Typography gutterBottom variant="h5" component="h2">
-													judull...
-												</Typography>
-
-												<Typography variant="body2" color="textSecondary" component="p">
-													descript
-												</Typography>
-											</CardContent>
-										</CardActionArea>
-									</Card>
-								</div>
-								{/* </Link> */}
-							</Grid>
+															<Typography
+																variant="body2"
+																color="textSecondary"
+																component="p"
+															>
+																{favorite.event.description.substring(0, 30)}
+															</Typography>
+														</CardContent>
+													</CardActionArea>
+												</Card>
+											</div>
+										</Link>
+									</Grid>
+								);
+							})}
 						</Grid>
 					</div>
 				</div>

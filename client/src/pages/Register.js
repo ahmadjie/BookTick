@@ -46,14 +46,7 @@ export default class Register extends Component {
 			email: this.state.email
 		};
 
-		register(user).then(() => {
-			if (localStorage.getItem('token')) {
-				window.location = '/home';
-				alert('Success registered');
-			} else {
-				alert('failed register');
-			}
-		});
+		register(user);
 	};
 
 	render() {

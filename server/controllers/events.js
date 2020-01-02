@@ -104,34 +104,25 @@ exports.eventsByid = (req, res) => {
 	});
 };
 
-//exports.eventsByTime = (req, res) => {
-// 	const time = req.query.start_time;
-// 	Events.findOne({
-// 		attributes: {
-// 			exclude: [ 'createdAt', 'updatedAt', 'categoryId', 'userId' ]
-// 		},
-// 		where: {
-// 			starTime: time
-// 		},
-// 		include: [
-// 			{
-// 				model: Categories,
-// 				as: 'category',
-// 				attributes: {
-// 					exclude: [ 'createdAt', 'updatedAt' ]
-// 				}
-// 			}
-// 		],
-// 		include: [
-// 			{
-// 				model: Users,
-// 				as: 'createdBy',
-// 				attributes: {
-// 					exclude: [ 'createdAt', 'updatedAt', 'role', 'password', 'username' ]
-// 				}
-// 			}
-// 		]
-// 	}).then((data) => {
-// 		res.send(data);
-// 	});
-// };
+exports.addEvent = (req, res) => {
+	const { title, starTime, endTime, price, description, address, urlmaps, image, categoryId } = req.body;
+	Events.create({
+		title,
+		categoryId,
+		starTime,
+		endTime,
+		price,
+		description,
+		address,
+		urlmaps,
+		image,
+		userId: tokenUserId
+	})
+		.then((data) => {
+			message = 'Success';
+			res.status(200).json({ message, data });
+		})
+		.catch((error) => {
+			res.status(500).json({ message: error });
+		});
+};

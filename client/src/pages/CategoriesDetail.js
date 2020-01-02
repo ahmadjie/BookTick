@@ -7,7 +7,8 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
-import { CardMedia } from '@material-ui/core';
+import { CardMedia, Button } from '@material-ui/core';
+import FavoriteIcon from '@material-ui/icons/Favorite';
 import { withRouter } from 'react-router';
 
 class CategoriesDetails extends Component {
@@ -64,28 +65,53 @@ class CategoriesDetails extends Component {
 					<Grid container>
 						{this.state.events.map((event) => {
 							return (
-								<Grid item xs={4} style={{ boxShadow: '2px 2px #ede7f6', marginBottom: '2%' }}>
-									<Link to={`/event/?${event.id}`} style={{ textDecoration: 'none', color: 'black' }}>
-										<div style={{ margin: '5px' }}>
-											<Card>
-												<CardActionArea>
-													<CardMedia component="img" height="250px" image={event.image} />
-													<CardContent>
-														<Typography gutterBottom variant="h5" component="h2">
-															{event.title}
-														</Typography>
+								<Grid item xs={4} style={{ marginBottom: '2%' }}>
+									<div style={{ margin: '5px' }}>
+										<Card>
+											<CardActionArea>
+												<Button
+													disabled
+													style={{
+														position: 'absolute',
+														top: '10px',
+														right: '10px',
+														backgroundColor: 'white',
+														padding: '10px'
+													}}
+												>
+													<Typography
+														variant="body1"
+														color="textSecondary"
+														style={{ color: '#ff5252' }}
+													>
+														{event.price}
+													</Typography>
+												</Button>
+												<CardMedia component="img" height="250px" image={event.image} />
+												<CardContent>
+													<Grid container style={{ display: 'flex' }}>
+														<Grid item xs={11}>
+															<Link
+																to={`/event/${event.id}`}
+																style={{ textDecoration: 'none', color: 'black' }}
+															>
+																<Typography gutterBottom variant="h5" component="h2">
+																	{event.title.substring(0, 30)}
+																</Typography>
+															</Link>
+														</Grid>
+														<Grid item xs={1}>
+															<FavoriteIcon />
+														</Grid>
+													</Grid>
 
-														<Typography variant="body1" color="textSecondary" component="p">
-															{event.price}
-														</Typography>
-														<Typography variant="body2" color="textSecondary" component="p">
-															{event.description}
-														</Typography>
-													</CardContent>
-												</CardActionArea>
-											</Card>
-										</div>
-									</Link>
+													<Typography variant="body2" color="textSecondary" component="p">
+														{event.description.substring(0, 60)}
+													</Typography>
+												</CardContent>
+											</CardActionArea>
+										</Card>
+									</div>
 								</Grid>
 							);
 							// return <p>{event.title}</p>;

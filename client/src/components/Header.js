@@ -9,6 +9,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
+import Divider from '@material-ui/core/Divider';
 import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
@@ -69,7 +70,7 @@ export default function Header() {
 		<div>
 			<AppBar position="static" style={{ backgroundColor: '#ff5252' }}>
 				<Toolbar>
-					<Typography variant="h5" className={classes.title}>
+					<Typography variant="h5" className={classes.title} style={{ marginLeft: '11%' }}>
 						<Link to="/home" style={{ textDecoration: 'none', color: 'white' }}>
 							BookTick
 						</Link>
@@ -106,7 +107,22 @@ export default function Header() {
 										Profile
 									</Link>
 								</MenuItem>
-
+								<MenuItem onClick={handleClose}>
+									<Link to="/myticket" style={{ textDecoration: 'none', color: 'black' }}>
+										My Ticket
+									</Link>
+								</MenuItem>
+								<MenuItem onClick={handleClose}>
+									<Link to="/payment" style={{ textDecoration: 'none', color: 'black' }}>
+										Payment
+									</Link>
+								</MenuItem>
+								<MenuItem onClick={handleClose}>
+									<Link to="/addevent" style={{ textDecoration: 'none', color: 'black' }}>
+										Add Event
+									</Link>
+								</MenuItem>
+								<Divider />
 								<MenuItem onClick={handleClose}>
 									<Link to="/" style={{ textDecoration: 'none', color: 'black' }} onClick={onSubmit}>
 										Logout

@@ -6,6 +6,9 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import CategoriesDetails from './pages/CategoriesDetail';
 import Profile from './pages/Profile';
+import MyTicket from './pages/MyTickets';
+import AddEvent from './pages/AddEvent';
+import Payment from './pages/Payments';
 import './App.css';
 
 export default class App extends Component {
@@ -14,6 +17,15 @@ export default class App extends Component {
 			<div>
 				<Router>
 					<Switch>
+						<Route path="/payment">
+							<Payment />
+						</Route>
+						<Route path="/addevent">
+							<AddEvent />
+						</Route>
+						<Route path="/myticket">
+							<MyTicket />
+						</Route>
 						<Route path="/profile/:id">
 							<Profile />
 						</Route>
@@ -26,7 +38,7 @@ export default class App extends Component {
 						<Route path="/login">
 							<Login />
 						</Route>
-						<Route path="/event">
+						<Route path="/event/:id">
 							<EventDetails />
 						</Route>
 						<Route path="/">

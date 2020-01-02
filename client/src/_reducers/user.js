@@ -1,30 +1,60 @@
-import { GET_PROFILE } from '../config/constants';
-const initialState = {
+import { POST_FAVORITE } from '../config/constants';
+
+const initialUserAddFavorite = {
 	data: [],
-	isLoading: false,
-	error: false
+	isLoadingLike: false,
+	errorLike: false
 };
 
-export const user = (state = initialState, action) => {
+export const userSetFavoriteEvent = (state = initialUserAddFavorite, action) => {
 	switch (action.type) {
-		case `${GET_PROFILE}_PENDING`:
+		case `${POST_FAVORITE}_PENDING`:
 			return {
 				...state,
-				isLoading: true
+				isLoadingLike: true
 			};
-		case `${GET_PROFILE}_FULFILLED`:
+		case `${POST_FAVORITE}_FULFILLED`:
 			return {
 				...state,
-				data: action.payload,
-				isLoading: false
+				dataLike: action.payload.data,
+				isLoadingLike: false
 			};
-		case `${GET_PROFILE}_REJECTED`:
+		case `${POST_FAVORITE}_REJECTED`:
 			return {
 				...state,
-				error: true,
-				isLoading: false
+				errorLike: true,
+				isLoadingLike: false
 			};
 		default:
 			return state;
 	}
 };
+// const initialState = {
+// 	data: [],
+// 	isLoading: false,
+// 	error: false
+// };
+
+// export const user = (state = initialState, action) => {
+// 	switch (action.type) {
+// 		case `${GET_PROFILE}_PENDING`:
+// 			return {
+// 				...state,
+// 				isLoading: true
+// 			};
+// 		case `${GET_PROFILE}_FULFILLED`:
+// 			return {
+// 				...state,
+// 				data: action.payload,
+// 				isLoading: false
+// 			};
+// 		case `${GET_PROFILE}_REJECTED`:
+// 			return {
+// 				...state,
+// 				error: true,
+// 				isLoading: false
+// 			};
+// 		default:
+// 			return state;
+// 	}
+// };

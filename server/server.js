@@ -5,6 +5,7 @@ const eventsController = require('./controllers/events');
 const orderController = require('./controllers/orders');
 const authController = require('./controllers/auth');
 const userController = require('./controllers/user');
+const favoriteController = require('./controllers/favorites');
 const middleware = require('./middleware');
 const app = express();
 const cors = require('cors');
@@ -20,6 +21,7 @@ app.group('/api/v1', (router) => {
 	router.get('/category/:id', categoriesController.byId);
 	router.get('/events', eventsController.allEvents);
 	router.get('/event/', eventsController.eventsByTitle);
+	router.post('/event/', middleware.checkAuth, eventsController.addEvent);
 	// router.get('/events', eventsController.eventsByTime);
 	//task 2
 	router.get('/category/:id/events', eventsController.eventsByCategory);
@@ -38,6 +40,10 @@ app.group('/api/v1', (router) => {
 	router.get('/profile', middleware.checkAuth, userController.userByLogin);
 	//lihat seluruh order
 	router.get('/orders', orderController.index);
+
+	//favorites
+	router.get('/user/:userId/favorite', favoriteController.favoriteByUser);
+	router.post('/favorite', middleware.checkAuth, favoriteController.addFavorite);
 
 	//task1 belom jadi
 	// router.get('/events/:time', eventsController.eventsByTime);
