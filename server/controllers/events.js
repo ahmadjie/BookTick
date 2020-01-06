@@ -2,6 +2,8 @@ const Model = require('../models');
 const Categories = Model.categories;
 const Events = Model.events;
 const Users = Model.users;
+const Sequelize = require('sequelize');
+const Op = Sequelize.Op;
 
 exports.allEvents = (req, res) => {
 	Events.findAll({
@@ -14,12 +16,14 @@ exports.allEvents = (req, res) => {
 //task 1 event by time belom
 exports.eventsByTitle = (req, res) => {
 	const title = req.query.title;
-	Events.findOne({
+	Events.findAll({
 		attributes: {
 			exclude: [ 'createdAt', 'updatedAt', 'categoryId', 'userId' ]
 		},
 		where: {
-			title: title
+			title: {
+				[Op.startsWith]: title
+			}
 		},
 		include: [
 			{

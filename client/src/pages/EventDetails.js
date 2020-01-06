@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Header from '../components/Header';
+import Footer from '../components/Footer';
 import { Grid, Card, Button, Divider } from '@material-ui/core';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
 import FacebookIcon from '@material-ui/icons/Facebook';
@@ -11,7 +12,7 @@ import MailOutlineIcon from '@material-ui/icons/MailOutline';
 import PermContactCalendarIcon from '@material-ui/icons/PermContactCalendar';
 import EventNoteIcon from '@material-ui/icons/EventNote';
 import { withRouter } from 'react-router';
-import { orderPost, orderEvent } from '../config/api';
+import { orderEvent } from '../config/api';
 import axios from 'axios';
 
 class EventDetails extends Component {
@@ -248,6 +249,7 @@ class EventDetails extends Component {
 						</div>
 					</Grid>
 				</Grid>
+				<Footer />
 			</div>
 		);
 	}

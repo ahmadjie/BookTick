@@ -27,14 +27,17 @@ export const register = (user) => {
 			image: 'https://reactjs.org/logo-og.png'
 		})
 		.then((response) => {
-			if (response.data.data.message === 'success') {
-				alert('Success Register');
-				window.location = '/login';
-				// localStorage.setItem('token', response.data.data.token);
-				// return response.data;
-			} else {
-				alert('eror');
-			}
+			// if (response.data.data.token !== undefined) {
+			// 	if (response.data.data.token !== undefined) {
+			// 		localStorage.setItem('token', response.data.data.token);
+			// 		return response.data;
+			// 	}
+			// 	// alert('Success Register');
+			// 	// window.location = '/home';
+			// } else {
+			// 	alert('eror');
+			// }
+			localStorage.setItem('token', response.data.data.token);
 		})
 		.catch((err) => {
 			console.log(err);
@@ -130,5 +133,35 @@ export const orderEvent = (order) => {
 		})
 		.catch((err) => {
 			// console.log(err);
+		});
+};
+
+export const editProfile = (newData) => {
+	const getToken = localStorage.getItem('token');
+	return axios
+		.put(
+			'http://localhost:7000/api/v1/profile',
+			{
+				name: newData.name,
+				phone: newData.phone,
+				email: newData.email,
+				image: newData.image
+			},
+			{
+				headers: {
+					Authorization: 'Bearer ' + getToken
+				}
+			}
+		)
+		.then((response) => {
+			console.log(response);
+			// if (response) {
+			// 	console.log(response);
+			// } else {
+			// 	window.location = '/profile';
+			// }
+		})
+		.catch((err) => {
+			console.log(err);
 		});
 };

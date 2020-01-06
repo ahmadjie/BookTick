@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { getCategories } from '../_actions/categories';
 import { Grid, Button, TextField, InputLabel, Select, MenuItem } from '@material-ui/core';
 import { addEvent } from '../config/api';
+import Footer from '../components/Footer';
 class AddEvent extends Component {
 	constructor(props) {
 		super(props);
@@ -188,6 +189,7 @@ class AddEvent extends Component {
 						</Grid>
 					</Grid>
 				</div>
+				<Footer />
 			</div>
 		);
 	}

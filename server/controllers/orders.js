@@ -45,11 +45,12 @@ exports.index = (req, res) => {
 	});
 };
 
-exports.orderByUser = (req, res) => {
-	const { buyerId } = req.params;
+exports.orderByStatus = (req, res) => {
+	const status = req.query.status;
 	Order.findAll({
 		where: {
-			buyerId
+			buyerId: tokenUserId,
+			status
 		},
 		attributes: [ 'id', 'status', 'totalPrice', 'quantity' ],
 		include: [
@@ -85,40 +86,82 @@ exports.orderByUser = (req, res) => {
 		});
 };
 
-// exports.orderPending = (req, res) => {
+exports.orderById = (req, res) => {
+	const id = req.params.id;
+	const status = req.query.status;
+	Order.findOne({
+		where: {
+			id,
+			buyerId: tokenUserId,
+			status
+		},
+		attributes: [ 'id', 'status', 'totalPrice', 'quantity' ],
+		include: [
+			{
+				model: Events,
+				as: 'event',
+				attributes: [ 'id', 'price', 'description', 'title', 'image', 'address', 'starTime' ]
+			},
+			{
+				model: User,
+				as: 'buyer',
+				attributes: [ 'id', 'name' ]
+			}
+		]
+	})
+		.then((data) => {
+			if (data !== null) {
+				res.status(200).send(data);
+			} else {
+				res.status(401).send({
+					message: 'Unauthorized'
+				});
+			}
+		})
+		.catch((err) => {
+			res.send({
+				message: err
+			});
+		});
+};
 
-//     const
-// 	Order.findOne({
-//         where:{
-
-//         },
-// 		attributes: {
-// 			exclude: [ 'createdAt', 'updatedAt', 'eventId' ]
-// 		},
-// 		include: {
-// 			attributes: {
-// 				exclude: [ 'createdAt', 'updatedAt', 'categoryId', 'userId' ]
-// 			},
-// 			model: Events,
-// 			as: 'event',
-// 			include: [
-// 				{
-// 					model: Category,
-// 					as: 'category',
-// 					attributes: {
-// 						exclude: [ 'createdAt', 'updatedAt' ]
-// 					}
-// 				},
-// 				{
-// 					model: User,
-// 					as: 'createdBy',
-// 					attributes: {
-// 						exclude: [ 'role', 'password', 'createdAt', 'updatedAt', 'username' ]
-// 					}
-// 				}
-// 			]
-// 		}
-// 	}).then((data) => {
-// 		res.send(data);
-// 	});
-// };
+exports.confirmOrderById = (req, res) => {
+	const id = req.params.id;
+	const status = req.query.status;
+	Order.findOne({
+		where: {
+			id,
+			buyerId: tokenUserId,
+			status
+		}
+	})
+		.then((response) => {
+			if (response) {
+				Order.update(
+					{
+						status: 'success'
+					},
+					{
+						where: {
+							id
+						}
+					}
+				)
+					.then((data) => {
+						res.status(200).send(data);
+					})
+					.catch((err) => {
+						res.status(403).send(err);
+					});
+			} else {
+				res.status(200).send({
+					message: 'error'
+				});
+			}
+		})
+		.catch((err) => {
+			res.send({
+				message: err
+			});
+		});
+};

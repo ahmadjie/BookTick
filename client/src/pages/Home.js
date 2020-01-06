@@ -3,6 +3,7 @@ import Header from '../components/Header';
 import Search from '../components/Search';
 import Category from '../components/Category';
 import Event from '../components/Events';
+import Footer from '../components/Footer';
 
 export default class Home extends Component {
 	render() {
@@ -14,6 +15,7 @@ export default class Home extends Component {
 					<Category />
 					<Event />
 				</div>
+				<Footer />
 			</div>
 		);
 	}

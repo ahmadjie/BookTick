@@ -4,78 +4,61 @@ import { Grid, CardMedia, Button, Typography, Card, CardActionArea, CardContent,
 import { withRouter } from 'react-router';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import axios from 'axios';
+import { connect } from 'react-redux';
+import ProfileComponent from '../components/Profile';
+import EditProfile from '../components/EditProfile';
+import Footer from '../components/Footer';
 
 class Profile extends Component {
 	state = {
-		user: [],
 		favorites: [],
 		error: false
 	};
 	componentDidMount() {
-		const { match } = this.props;
-		axios.get(`http://localhost:7000/api/v1/profile/${match.params.id}`).then((responses) => {
-			this.setState({ user: responses.data });
-		});
-		axios.get(`http://localhost:7000/api/v1/user/${match.params.id}/favorite`).then((responses) => {
-			if (responses.data.length > 0) {
-				this.setState({ favorites: responses.data });
-			}
-		});
+		const getToken = localStorage.getItem('token');
+		axios
+			.get(`http://localhost:7000/api/v1/user/favorite`, {
+				headers: {
+					Authorization: 'Bearer ' + getToken
+				}
+			})
+			.then((responses) => {
+				if (responses.data.length > 0) {
+					this.setState({ favorites: responses.data });
+				}
+			});
 	}
 	render() {
+		const { data, isLoading, eror } = this.props.user;
+		if (isLoading) {
+			return (
+				<div>
+					<h1>Mohon Tunggu...</h1>
+				</div>
+			);
+		}
+		if (eror) {
+			return (
+				<div>
+					<h1>Something Error</h1>
+				</div>
+			);
+		}
+
 		return (
 			<div style={{ backgroundColor: '#fbe9e7' }}>
 				<Header />
 				<div style={{ width: '75%', margin: 'auto' }}>
-					<div style={{ marginTop: '5%', color: '#ff5252' }}>
-						<h1>Profile</h1>
-					</div>
-					<div style={{ width: '100%' }}>
-						<Grid container justify="flex-start" alignContent="flex-start">
-							<Grid item xs={9} style={{ display: 'flex', flexDirection: 'row' }}>
-								<div>
-									<div
-										style={{
-											display: 'flex',
-											flexDirection: 'row',
-
-											paddingRight: '159px'
-										}}
-									>
-										<h1 style={{ color: '#757575' }}>
-											{this.state.user.name}
-											<Button
-												variant="outlined"
-												size="small"
-												style={{
-													backgroundColor: '#ff5252',
-													color: 'white',
-													marginLeft: '30px '
-												}}
-											>
-												Edit Profile
-											</Button>
-										</h1>
-									</div>
-									<Typography variant="body1" color="textSecondary">
-										@{this.state.user.username}
-									</Typography>
-									<Typography variant="body1" color="textSecondary">
-										{this.state.user.phone}
-									</Typography>
-									<Typography variant="body1" color="textSecondary">
-										{this.state.user.email}
-									</Typography>
-								</div>
-							</Grid>
-							<Grid item xs={3} style={{ width: 128, height: 128 }}>
-								<Avatar
-									style={{ width: 128, height: 128, marginTop: '6%', marginLeft: '75%' }}
-									src={`${this.state.user.image}`}
-								/>
-							</Grid>
-						</Grid>
-					</div>
+					<Router>
+						<Switch>
+							<Route path="/profile/edit" component={EditProfile}>
+								<EditProfile />
+							</Route>
+							<Route path="/profile" component={ProfileComponent}>
+								<ProfileComponent />
+							</Route>
+						</Switch>
+					</Router>
 
 					{/* FAVORITE */}
 
@@ -140,9 +123,18 @@ class Profile extends Component {
 						</Grid>
 					</div>
 				</div>
+				<Footer />
 			</div>
 		);
 	}
 }
 
-export default withRouter(Profile);
+const mapStateToProps = (state) => {
+	return {
+		//userDetail dari reducer
+		//engga ada dispatch karena udah ada di App
+		user: state.userDetail
+	};
+};
+
+export default withRouter(connect(mapStateToProps)(Profile));

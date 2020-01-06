@@ -46,12 +46,13 @@ exports.register = (req, res) => {
 		username: username,
 		password: password,
 		role: 2
-	}).then((data) => {
-		const token = jwt.sign({ userId: User.id }, 'asep');
+	}).then((user) => {
+		const token = jwt.sign({ userId: user.id }, 'asep');
 		res.send({
 			data: {
 				message: 'success',
-				token
+				token,
+				user
 			}
 		});
 	});

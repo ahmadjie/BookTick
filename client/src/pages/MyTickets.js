@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Header from '../components/Header';
 import { Typography, Container, Grid } from '@material-ui/core';
-import '@material-ui/icons';
+import Footer from '../components/Footer';
 import axios from 'axios';
 import { withRouter } from 'react-router';
 
@@ -10,13 +10,19 @@ class MyTicket extends Component {
 		orders: []
 	};
 	componentDidMount() {
-		const { match } = this.props;
+		const getToken = localStorage.getItem('token');
 
-		axios.get(`http://localhost:7000/api/v1/user/${match.params.id}/orders`).then((responses) => {
-			if (responses.data.length > 0) {
-				this.setState({ orders: responses.data });
-			}
-		});
+		axios
+			.get(`http://localhost:7000/api/v1//user/orders?status=success`, {
+				headers: {
+					Authorization: 'Bearer ' + getToken
+				}
+			})
+			.then((responses) => {
+				if (responses.data.length > 0) {
+					this.setState({ orders: responses.data });
+				}
+			});
 	}
 	render() {
 		const img =
@@ -24,23 +30,32 @@ class MyTicket extends Component {
 		return (
 			<div>
 				<Header />
-				{console.log(this.state.orders)}
+
 				<Container maxWidth="md" style={{ marginTop: '50px' }}>
-					<Typography variant="h4" component="p" color="secondary" style={{ marginBottom: '20px' }}>
+					<Typography
+						variant="h5"
+						component="p"
+						color="secondary"
+						style={{
+							backgroundColor: 'rgb(255, 18, 18)',
+							color: '#fff',
+							width: '50%',
+							textAlign: 'center'
+						}}
+					>
 						My Ticket
 					</Typography>
 					<div
 						style={{
 							borderTop: '8px solid rgb(255, 18, 18)',
 							backgroundColor: '#fff',
-							padding: '20px'
+							padding: '10px'
 						}}
 					>
 						<Container maxWidth="md">
 							{this.state.orders.map((order) => {
-								console.log(order);
 								return (
-									<div style={{ backgroundColor: '#ff5252', padding: '20px' }}>
+									<div style={{ backgroundColor: '#ff5252', padding: '20px', marginTop: '40px' }}>
 										<div style={{ backgroundColor: '#fff' }}>
 											<div
 												style={{
@@ -84,7 +99,7 @@ class MyTicket extends Component {
 															fontWeight: 'bold'
 														}}
 													>
-														id.confirm
+														Status : {order.status}
 													</Typography>
 												</Grid>
 											</div>
@@ -116,6 +131,7 @@ class MyTicket extends Component {
 						</Container>
 					</div>
 				</Container>
+				<Footer />
 			</div>
 		);
 	}

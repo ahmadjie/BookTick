@@ -18,7 +18,6 @@ export class Event extends Component {
 	};
 	componentDidMount() {
 		this.props.getEvents();
-		// this.props.userSetFavoriteEvent();
 	}
 
 	handleLikeClick = (id) => () => {
@@ -62,16 +61,19 @@ export class Event extends Component {
 													position: 'absolute',
 													top: '10px',
 													right: '10px',
-													backgroundColor: 'white',
+													backgroundColor: '#ff5252',
 													padding: '10px'
 												}}
 											>
 												<Typography
-													variant="body1"
+													variant="h6"
 													color="textSecondary"
-													style={{ color: '#ff5252' }}
+													style={{
+														color: 'white',
+														fontSize: '14px'
+													}}
 												>
-													{item.price}
+													Rp. {item.price}
 												</Typography>
 											</Button>
 											<CardMedia component="img" height="250px" image={item.image} />

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Header from '../components/Header';
+import Footer from '../components/Footer';
 import axios from 'axios';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
@@ -101,7 +102,7 @@ class CategoriesDetails extends Component {
 															</Link>
 														</Grid>
 														<Grid item xs={1}>
-															<FavoriteIcon />
+															<FavoriteIcon style={{ color: 'salmon' }} />
 														</Grid>
 													</Grid>
 
@@ -114,10 +115,10 @@ class CategoriesDetails extends Component {
 									</div>
 								</Grid>
 							);
-							// return <p>{event.title}</p>;
 						})}
 					</Grid>
 				</div>
+				<Footer />
 			</div>
 		);
 	}

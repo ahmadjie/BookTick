@@ -25,10 +25,9 @@ exports.addFavorite = (req, res) => {
 };
 
 exports.favoriteByUser = (req, res) => {
-	const { userId } = req.params;
 	Favorites.findAll({
 		where: {
-			userId
+			userId: tokenUserId
 		},
 		attributes: {
 			exclude: [ 'createdAt', 'updatedAt', 'userId' ]

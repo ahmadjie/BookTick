@@ -9,24 +9,33 @@ import Profile from './pages/Profile';
 import MyTicket from './pages/MyTickets';
 import AddEvent from './pages/AddEvent';
 import Payment from './pages/Payments';
+import PaymentDetail from './pages/PaymentDetail';
+import { getUser } from './_actions/user';
+import { connect } from 'react-redux';
 import './App.css';
 
-export default class App extends Component {
+class App extends Component {
+	componentDidMount() {
+		this.props.userDetail1();
+	}
 	render() {
 		return (
 			<div>
 				<Router>
 					<Switch>
+						<Route path="/payment/:id">
+							<PaymentDetail />
+						</Route>
 						<Route path="/payment">
 							<Payment />
 						</Route>
 						<Route path="/addevent">
 							<AddEvent />
 						</Route>
-						<Route path="/user/:id/orders">
+						<Route path="/myticket">
 							<MyTicket />
 						</Route>
-						<Route path="/profile/:id">
+						<Route path="/profile">
 							<Profile />
 						</Route>
 						<Route path="/category/:id/events">
@@ -50,3 +59,21 @@ export default class App extends Component {
 		);
 	}
 }
+
+const mapStateToProp = (state) => {
+	return {
+		//userDetail dari reducer
+		user: state.userDetail
+	};
+};
+
+const mapDispatchToProps = (dispatch) => {
+	return {
+		userDetail1: () => {
+			//getUser() dari action
+			dispatch(getUser());
+		}
+	};
+};
+
+export default connect(mapStateToProp, mapDispatchToProps)(App);

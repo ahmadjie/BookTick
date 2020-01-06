@@ -11,6 +11,7 @@ import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
 import axios from 'axios';
+import { connect } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -24,7 +25,8 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-export default function Header() {
+function Header(props) {
+	const { data } = props.user;
 	//check token
 	const token = localStorage.getItem('token');
 	let auth = false;
@@ -36,8 +38,6 @@ export default function Header() {
 	//style menu item
 	const [ anchorEl, setAnchorEl ] = React.useState(null);
 	const open = Boolean(anchorEl);
-	//set user id
-	const [ user, setUser ] = useState([]);
 
 	const handleMenu = (event) => {
 		setAnchorEl(event.currentTarget);
@@ -50,22 +50,6 @@ export default function Header() {
 	const onSubmit = () => {
 		localStorage.clear();
 	};
-
-	//component didMount
-	useEffect(() => {
-		const fetchUser = async () => {
-			const res = await axios({
-				method: 'GET',
-				url: 'http://localhost:7000/api/v1/profile/',
-				headers: {
-					Authorization: 'Bearer ' + token
-				}
-			});
-			setUser(res.data.data);
-		};
-		fetchUser();
-	}, []);
-
 	return (
 		<div>
 			<AppBar position="static" style={{ backgroundColor: '#ff5252' }}>
@@ -84,7 +68,7 @@ export default function Header() {
 								onClick={handleMenu}
 								color="inherit"
 							>
-								<Avatar src={`${user.image}`} />
+								<Avatar src={`${data.image}`} />
 							</IconButton>
 							<Menu
 								id="menu-appbar"
@@ -102,21 +86,17 @@ export default function Header() {
 								onClose={handleClose}
 							>
 								<MenuItem onClick={handleClose}>
-									{/* LINK USER BY ID */}
-									<Link to={`/profile/${user.id}`} style={{ textDecoration: 'none', color: 'black' }}>
+									<Link to={`/profile`} style={{ textDecoration: 'none', color: 'black' }}>
 										Profile
 									</Link>
 								</MenuItem>
 								<MenuItem onClick={handleClose}>
-									<Link
-										to={`/user/${user.id}/orders`}
-										style={{ textDecoration: 'none', color: 'black' }}
-									>
+									<Link to={`/myticket`} style={{ textDecoration: 'none', color: 'black' }}>
 										My Ticket
 									</Link>
 								</MenuItem>
 								<MenuItem onClick={handleClose}>
-									<Link to="/payment" style={{ textDecoration: 'none', color: 'black' }}>
+									<Link to={`/payment`} style={{ textDecoration: 'none', color: 'black' }}>
 										Payment
 									</Link>
 								</MenuItem>
@@ -137,12 +117,15 @@ export default function Header() {
 					{auth || (
 						<div>
 							<Link to="/Register" style={{ textDecoration: 'none' }}>
-								<Button variant="contained" style={{ marginRight: '10px', backgroundColor: '#fafafa' }}>
+								<Button
+									variant="contained"
+									style={{ marginRight: '10px', backgroundColor: '#ff5252', color: '#fafafa' }}
+								>
 									Register
 								</Button>
 							</Link>
 							<Link to="/login" style={{ textDecoration: 'none' }}>
-								<Button variant="contained" style={{ backgroundColor: '#fafafa' }}>
+								<Button variant="contained" style={{ backgroundColor: '#fafafa', color: '#ff5252' }}>
 									Login
 								</Button>
 							</Link>
@@ -153,3 +136,12 @@ export default function Header() {
 		</div>
 	);
 }
+
+const mapStateToProp = (state) => {
+	return {
+		//userDetail dari reducer
+		user: state.userDetail
+	};
+};
+
+export default connect(mapStateToProp)(Header);

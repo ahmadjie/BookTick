@@ -22,7 +22,6 @@ app.group('/api/v1', (router) => {
 	router.get('/events', eventsController.allEvents);
 	router.get('/event/', eventsController.eventsByTitle);
 	router.post('/event/', middleware.checkAuth, eventsController.addEvent);
-	// router.get('/events', eventsController.eventsByTime);
 	//task 2
 	router.get('/category/:id/events', eventsController.eventsByCategory);
 	//task 3
@@ -36,14 +35,16 @@ app.group('/api/v1', (router) => {
 
 	//task 7
 	router.get('/profile/:id', userController.userById);
-	// router.get('/profile/', middleware.checkAuth, userController, userById);
 	router.get('/profile', middleware.checkAuth, userController.userByLogin);
+	router.put('/profile', middleware.checkAuth, userController.editProfile);
 	//lihat seluruh order
 	router.get('/orders', orderController.index);
-	router.get('/user/:buyerId/orders', orderController.orderByUser);
+	router.get('/user/orders', middleware.checkAuth, orderController.orderByStatus);
+	router.get('/order/:id', middleware.checkAuth, orderController.orderById);
+	// router.get('/order/:id', middleware.checkAuth, orderController.confirmOrderById);
 
 	//favorites
-	router.get('/user/:userId/favorite', favoriteController.favoriteByUser);
+	router.get('/user/favorite', middleware.checkAuth, favoriteController.favoriteByUser);
 	router.post('/favorite', middleware.checkAuth, favoriteController.addFavorite);
 
 	//task1 belom jadi
