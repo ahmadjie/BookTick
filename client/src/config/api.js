@@ -27,16 +27,6 @@ export const register = (user) => {
 			image: 'https://reactjs.org/logo-og.png'
 		})
 		.then((response) => {
-			// if (response.data.data.token !== undefined) {
-			// 	if (response.data.data.token !== undefined) {
-			// 		localStorage.setItem('token', response.data.data.token);
-			// 		return response.data;
-			// 	}
-			// 	// alert('Success Register');
-			// 	// window.location = '/home';
-			// } else {
-			// 	alert('eror');
-			// }
 			localStorage.setItem('token', response.data.data.token);
 		})
 		.catch((err) => {
@@ -67,7 +57,7 @@ export const favorite = (eventId) => {
 			}
 		})
 		.catch((err) => {
-			// console.log(err);
+			console.log(err);
 		});
 };
 
@@ -96,8 +86,6 @@ export const addEvent = (event) => {
 		.then((response) => {
 			if (response) {
 				window.location = '/home';
-				// localStorage.setItem('token', response.data.data.token);
-				// return response.data;
 			} else {
 				alert('eror');
 			}
@@ -155,13 +143,31 @@ export const editProfile = (newData) => {
 		)
 		.then((response) => {
 			console.log(response);
-			// if (response) {
-			// 	console.log(response);
-			// } else {
-			// 	window.location = '/profile';
-			// }
 		})
 		.catch((err) => {
 			console.log(err);
+		});
+};
+
+export const confirmPayment = (confirmStatus) => {
+	const getToken = localStorage.getItem('token');
+	return axios
+		.put(
+			'http://localhost:7000/api/v1/order',
+			{
+				id: confirmStatus.id,
+				attachment: confirmStatus.attachment
+			},
+			{
+				headers: {
+					Authorization: 'Bearer ' + getToken
+				}
+			}
+		)
+		.then(() => {
+			window.location = '/myticket';
+		})
+		.catch(() => {
+			alert('Something Error');
 		});
 };

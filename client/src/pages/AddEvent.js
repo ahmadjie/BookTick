@@ -69,130 +69,155 @@ class AddEvent extends Component {
 
 	render() {
 		const { data, isLoading, error } = this.props.categories;
-		console.log(this.state);
-		if (isLoading) {
+		const checkToken = localStorage.getItem('token')
+		if (!checkToken) {
+			window.location = '/login';
+		} else {
+
+			if (isLoading) {
+				return (
+					<div>
+						<h1>ini loading</h1>
+					</div>
+				);
+			}
+			if (error) {
+				return (
+					<div>
+						<h1>eror</h1>
+					</div>
+				);
+			}
+
+
 			return (
 				<div>
-					<h1>ini loading</h1>
-				</div>
-			);
-		}
-		if (error) {
-			return (
-				<div>
-					<h1>eror</h1>
-				</div>
-			);
-		}
-		return (
-			<div>
-				<Header />
-				<div style={{ margin: 'auto', width: '75%' }}>
-					<h1 style={{ color: '#ff5252' }}> Add Event </h1>
-					<Grid container direction="column" justify="center" alignItems="center" spacing={5}>
-						<Grid item style={{ width: '90%', marginTop: '5%', margin: 'auto' }}>
-							<form onSubmit={this.onSubmit}>
-								<TextField
-									value={this.state.title}
-									onChange={this.onChangeTitle}
-									label="Title Event"
-									required
-									style={{ width: '100%' }}
-								/>
-								<br />
-								<TextField
-									id="categoryId"
-									select
-									label="Select"
-									value={this.state.categoryId}
-									onChange={this.onChangeCategory}
-									helperText="Select Category"
-									fullWidth
-									style={{ marginBottom: '30px' }}
-								>
-									{data.map((option) => (
-										<MenuItem key={option.id} value={option.id}>
-											{option.name}
-										</MenuItem>
-									))}
-								</TextField>
-								<br />
-								<TextField
-									label="Start Time"
-									value={this.state.starTime}
-									onChange={this.onChangeStarTime}
-									required
-									style={{ width: '100%' }}
-								/>
-								<br />
-								<TextField
-									label="End Time"
-									value={this.state.endTime}
-									onChange={this.onChangeEndTime}
-									required
-									style={{ width: '100%' }}
-								/>
-								<br />
-								<TextField
-									label="Price"
-									value={this.state.price}
-									onChange={this.onChangePrice}
-									required
-									style={{ width: '100%' }}
-								/>
-								<br />
-								<TextField
-									id="standard-basic"
-									label="Description Event"
-									value={this.state.description}
-									onChange={this.onChangeDescription}
-									required
-									style={{ width: '100%' }}
-								/>
-								<br />
-								<TextField
-									id="standard-basic"
-									label="Adress Event"
-									value={this.state.address}
-									onChange={this.onChangeAddress}
-									required
-									style={{ width: '100%' }}
-								/>
+					<Header />
+					<div style={{ margin: 'auto', width: '75%' }}>
+						<h1 style={{ color: '#ff5252' }}> Add Event </h1>
+						<Grid container direction="column" justify="center" alignItems="center" spacing={5}>
+							<Grid item style={{ width: '90%', marginTop: '5%', margin: 'auto' }}>
+								<form onSubmit={this.onSubmit}>
+									<TextField
+										name="title"
+										value={this.state.title}
+										onChange={this.onChangeTitle}
+										label="Title Event"
+										required
+										fullWidth
+									/>
+									<br />
+									<TextField
+										name="categoryId"
+										select
+										label="Select"
+										value={this.state.categoryId}
+										onChange={this.onChangeCategory}
+										helperText="Select Category"
+										fullWidth
+										style={{ marginBottom: '30px' }}
+									>
+										{data.map((option) => (
+											<MenuItem key={option.id} value={option.id}>
+												{option.name}
+											</MenuItem>
+										))}
+									</TextField>
+									<br />
+									<TextField
+										name="starTime"
+										label="Start Time"
+										value={this.state.starTime}
+										onChange={this.onChangeStarTime}
+										type="datetime-local"
+										InputLabelProps={{
+											shrink: true
+										}}
+										required
+										fullWidth
+									/>
+									<br />
+									<TextField
+										name="endTime"
+										label="End Time"
+										value={this.state.endTime}
+										onChange={this.onChangeEndTime}
+										type="datetime-local"
+										InputLabelProps={{
+											shrink: true
+										}}
+										required
+										fullWidth
+									/>
+									<br />
+									<TextField
+										name="rice"
+										label="Price"
+										value={this.state.price}
+										onChange={this.onChangePrice}
+										required
+										fullWidth
+									/>
+									<br />
+									<TextField
+										name="description"
+										label="Description Event"
+										value={this.state.description}
+										onChange={this.onChangeDescription}
+										required
+										fullWidth
+									/>
+									<br />
+									<TextField
+										name="address"
+										label="Adress Event"
+										value={this.state.address}
+										onChange={this.onChangeAddress}
+										required
+										fullWidth
+									/>
 
-								<br />
-								<TextField
-									label="URL Map"
-									value={this.state.urlmaps}
-									onChange={this.onChangeUrlMap}
-									required
-									style={{ width: '100%' }}
-								/>
-								<iframe src={`${this.state.urlmaps}`} width="300" height="300" />
-								<br />
-								<TextField
-									id="standard-basic"
-									label="Upload Pamflet"
-									value={this.state.image}
-									onChange={this.onChangeImage}
-									required
-									style={{ width: '100%' }}
-								/>
-								<br />
+									<br />
+									<TextField
+										name="urlmaps"
+										label="URL Map"
+										value={this.state.urlmaps}
+										onChange={this.onChangeUrlMap}
+										required
+										fullWidth
+									/>
+									<iframe src={`${this.state.urlmaps}`} width="300" height="300" />
+									<br />
+									<TextField
+										name="image"
+										label="Upload Pamflet"
+										value={this.state.image}
+										onChange={this.onChangeImage}
+										required
+										fullWidth
+									/>
+									<br />
 
-								<img src={this.state.image} style={{ width: '100%', marginTop: '5%' }} />
-								<div style={{ width: '100%', marginTop: '5%' }}>
-									<Button variant="contained" color="primary" type="submit">
-										Publish
-									</Button>
-								</div>
-							</form>
+									<img src={this.state.image} style={{ width: '100%', marginTop: '5%' }} />
+									<div style={{ width: '100%', marginTop: '5%' }}>
+										<Button
+											variant="contained"
+											type="submit"
+											style={{ backgroundColor: '#ff5252', color: 'white' }}
+										>
+											Publish
+										</Button>
+									</div>
+								</form>
+							</Grid>
 						</Grid>
-					</Grid>
+					</div>
+					<Footer />
 				</div>
-				<Footer />
-			</div>
-		);
+			);
+		}
 	}
+
 }
 
 const mapStateToProps = (state) => {

@@ -1,6 +1,6 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { categories } from '../_reducers/categories';
-import { events } from '../_reducers/events';
+import { events, eventsToday,eventsUpComing } from '../_reducers/events';
 import { userDetail } from '../_reducers/user';
 import { promise, logger } from './middleware';
 
@@ -9,7 +9,9 @@ import { promise, logger } from './middleware';
 const rootReducers = combineReducers({
 	categories,
 	events,
-	userDetail
+	userDetail,
+	eventsToday,
+	eventsUpComing
 });
 
 //setup store redux

@@ -126,20 +126,22 @@ exports.orderById = (req, res) => {
 };
 
 exports.confirmOrderById = (req, res) => {
-	const id = req.params.id;
-	const status = req.query.status;
+	const { id, attachment } = req.body;
+	// const id = req.body.id;
+	// const attachment = req.body.attachment;
+
 	Order.findOne({
 		where: {
 			id,
-			buyerId: tokenUserId,
-			status
+			buyerId: tokenUserId
 		}
 	})
 		.then((response) => {
 			if (response) {
 				Order.update(
 					{
-						status: 'success'
+						status: 'success',
+						attachment: attachment
 					},
 					{
 						where: {
@@ -148,13 +150,14 @@ exports.confirmOrderById = (req, res) => {
 					}
 				)
 					.then((data) => {
+						console.log(data);
 						res.status(200).send(data);
 					})
 					.catch((err) => {
 						res.status(403).send(err);
 					});
 			} else {
-				res.status(200).send({
+				res.status(403).send({
 					message: 'error'
 				});
 			}

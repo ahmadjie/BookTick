@@ -44,14 +44,19 @@ class EventDetails extends Component {
 
 	orderPost = () => {
 		const { match } = this.props;
+		const checkToken = localStorage.getItem('token');
 		const order = {
 			quantity: this.state.count,
 			totalPrice: this.state.event.price * this.state.count,
 			eventId: match.params.id
 		};
-		orderEvent(order).then(() => {
-			window.location = '/home';
-		});
+		if (checkToken) {
+			orderEvent(order).then(() => {
+				window.location = '/payment';
+			});
+		} else {
+			window.location = '/login';
+		}
 	};
 	render() {
 		return (

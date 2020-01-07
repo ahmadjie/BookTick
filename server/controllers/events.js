@@ -2,12 +2,13 @@ const Model = require('../models');
 const Categories = Model.categories;
 const Events = Model.events;
 const Users = Model.users;
+const Helper = require('../helper/helper');
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 
 exports.allEvents = (req, res) => {
 	Events.findAll({
-		attributes: [ 'id', 'title', 'description', 'price', 'starTime', 'image' ]
+		attributes: ['id', 'title', 'description', 'price', 'starTime', 'image']
 	}).then((data) => {
 		res.send(data);
 	});
@@ -18,7 +19,7 @@ exports.eventsByTitle = (req, res) => {
 	const title = req.query.title;
 	Events.findAll({
 		attributes: {
-			exclude: [ 'createdAt', 'updatedAt', 'categoryId', 'userId' ]
+			exclude: ['createdAt', 'updatedAt', 'categoryId', 'userId']
 		},
 		where: {
 			title: {
@@ -30,7 +31,7 @@ exports.eventsByTitle = (req, res) => {
 				model: Categories,
 				as: 'category',
 				attributes: {
-					exclude: [ 'createdAt', 'updatedAt' ]
+					exclude: ['createdAt', 'updatedAt']
 				}
 			}
 		],
@@ -39,7 +40,7 @@ exports.eventsByTitle = (req, res) => {
 				model: Users,
 				as: 'createdBy',
 				attributes: {
-					exclude: [ 'createdAt', 'updatedAt', 'role', 'password', 'username' ]
+					exclude: ['createdAt', 'updatedAt', 'role', 'password', 'username']
 				}
 			}
 		]
@@ -53,14 +54,14 @@ exports.eventsByCategory = (req, res) => {
 	const { id } = req.params;
 	Events.findAll({
 		attributes: {
-			exclude: [ 'createdAt', 'updatedAt', 'categoryId', 'userId' ]
+			exclude: ['createdAt', 'updatedAt', 'categoryId', 'userId']
 		},
 		include: [
 			{
 				model: Categories,
 				as: 'category',
 				attributes: {
-					exclude: [ 'createdAt', 'updatedAt' ]
+					exclude: ['createdAt', 'updatedAt']
 				},
 				where: {
 					id
@@ -70,7 +71,7 @@ exports.eventsByCategory = (req, res) => {
 				model: Users,
 				as: 'createdBy',
 				attributes: {
-					exclude: [ 'createdAt', 'updatedAt', 'role', 'password', 'username' ]
+					exclude: ['createdAt', 'updatedAt', 'role', 'password', 'username']
 				}
 			}
 		]
@@ -85,21 +86,21 @@ exports.eventsByid = (req, res) => {
 			id
 		},
 		attributes: {
-			exclude: [ 'createdAt', 'updatedAt', 'categoryId', 'userId' ]
+			exclude: ['createdAt', 'updatedAt', 'categoryId', 'userId']
 		},
 		include: [
 			{
 				model: Categories,
 				as: 'category',
 				attributes: {
-					exclude: [ 'createdAt', 'updatedAt' ]
+					exclude: ['createdAt', 'updatedAt']
 				}
 			},
 			{
 				model: Users,
 				as: 'createdBy',
 				attributes: {
-					exclude: [ 'createdAt', 'updatedAt', 'role', 'password', 'username' ]
+					exclude: ['createdAt', 'updatedAt', 'role', 'password', 'username']
 				}
 			}
 		]
@@ -128,5 +129,88 @@ exports.addEvent = (req, res) => {
 		})
 		.catch((error) => {
 			res.status(500).json({ message: error });
+		});
+};
+
+exports.today = (req, res) => {
+	Events.findAll({
+		attributes: {
+			exclude: ['createdAt', 'updatedAt', 'categoryId', 'userId']
+		},
+		include: [
+			{
+				model: Categories,
+				as: 'category',
+				attributes: {
+					exclude: ['createdAt', 'updatedAt']
+				}
+			},
+			{
+				model: Users,
+				as: 'createdBy',
+				attributes: {
+					exclude: ['createdAt', 'updatedAt', 'role', 'password', 'username']
+				}
+			}
+		],
+		where: {
+			starTime: {
+				[Op.substring]: Helper.getDateToday()
+			}
+		}
+	})
+		.then((data) => {
+			if (!data.length) {
+				message = 'Data Not found';
+				res.status(200).json(data);
+			} else {
+				res.status(200).json(data);
+			}
+		})
+		.catch((error) => {
+			message = 'Bad request';
+			res.status(400).send(error);
+		});
+};
+
+
+exports.upComing = (req, res) => {
+	Events.findAll({
+		attributes: {
+			exclude: ['createdAt', 'updatedAt', 'categoryId', 'userId']
+		},
+		include: [
+			{
+				model: Categories,
+				as: 'category',
+				attributes: {
+					exclude: ['createdAt', 'updatedAt']
+				}
+			},
+			{
+				model: Users,
+				as: 'createdBy',
+				attributes: {
+					exclude: ['createdAt', 'updatedAt', 'role', 'password', 'username']
+				}
+			}
+		],
+		where: {
+			starTime: {
+				[Op.gt]: Helper.getNextDateFromToday()
+			}
+		}
+	})
+		.then((data) => {
+			if (!data.length) {
+				message = 'Data Not found';
+				res.status(200).json(data);
+			} else {
+				res.status(200).json(data);
+			}
+		})
+		.catch((error) => {
+			message = 'Bad request';
+			res.status(400).send(error);
 		});
 };

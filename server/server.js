@@ -22,6 +22,8 @@ app.group('/api/v1', (router) => {
 	router.get('/events', eventsController.allEvents);
 	router.get('/event/', eventsController.eventsByTitle);
 	router.post('/event/', middleware.checkAuth, eventsController.addEvent);
+	router.get('/today/events', eventsController.today);
+	router.get('/upcoming/events', eventsController.upComing);
 	//task 2
 	router.get('/category/:id/events', eventsController.eventsByCategory);
 	//task 3
@@ -41,7 +43,7 @@ app.group('/api/v1', (router) => {
 	router.get('/orders', orderController.index);
 	router.get('/user/orders', middleware.checkAuth, orderController.orderByStatus);
 	router.get('/order/:id', middleware.checkAuth, orderController.orderById);
-	// router.get('/order/:id', middleware.checkAuth, orderController.confirmOrderById);
+	router.put('/order', middleware.checkAuth, orderController.confirmOrderById);
 
 	//favorites
 	router.get('/user/favorite', middleware.checkAuth, favoriteController.favoriteByUser);
