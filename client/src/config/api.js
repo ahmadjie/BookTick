@@ -141,8 +141,8 @@ export const editProfile = (newData) => {
 				}
 			}
 		)
-		.then((response) => {
-			console.log(response);
+		.then(() => {
+			window.location = '/profile'
 		})
 		.catch((err) => {
 			console.log(err);

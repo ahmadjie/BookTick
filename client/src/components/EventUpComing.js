@@ -46,7 +46,7 @@ export class EventUpComing extends Component {
 
         return (
             <div style={{ marginTop: '3%' }}>
-                <h1 style={{ marginTop: '2%', color: '#ff5252' }}>Tommorow</h1>
+                <h1 style={{ marginTop: '2%', color: '#ff5252' }}>Up Coming</h1>
                 <Grid container style={{ marginTop: '2%' }}>
                     {data.map((item) => {
                         return (

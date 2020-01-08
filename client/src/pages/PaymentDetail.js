@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
+//components
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import { confirmPayment } from '../config/api';
+//material-ui
 import { Typography, Container, Grid, Divider, Button, TextField } from '@material-ui/core';
+//config
+import { confirmPayment } from '../config/api';
+//others
 import { withRouter } from 'react-router';
 import axios from 'axios';
 class PaymentDetail extends Component {
@@ -77,25 +81,12 @@ class PaymentDetail extends Component {
 						>
 							Payment
 						</Typography>
-						<div
-							style={{
-								borderTop: '8px solid rgb(255, 18, 18)',
-								backgroundColor: '#fff',
-								padding: '20px'
-							}}
-						>
+						<div style={{ borderTop: '8px solid rgb(255, 18, 18)', backgroundColor: '#fff', padding: '20px' }}>
 							<div>
 								<Container maxWidth="md">
 									<div style={{ backgroundColor: '#ff5252', padding: '20px', marginTop: '40px' }}>
 										<div style={{ backgroundColor: '#fff' }}>
-											<div
-												style={{
-													backgroundColor: '#ccc',
-													padding: '5px 10px',
-													display: 'flex',
-													justifyContent: 'space-between'
-												}}
-											>
+											<div style={{ backgroundColor: '#ccc', padding: '5px 10px', display: 'flex', justifyContent: 'space-between' }}>
 												<Grid item xs={2}>
 													<Typography variant="body1">{this.state.buyer.name}</Typography>
 													<Typography
@@ -150,14 +141,7 @@ class PaymentDetail extends Component {
 														alignItems="center"
 														style={{ display: 'flex' }}
 													>
-														<div
-															style={{
-																backgroundImage: `url(${img})`,
-																width: '180px',
-																height: '180px',
-																backgroundSize: 'cover'
-															}}
-														/>
+														<div style={{ backgroundImage: `url(${img})`, width: '180px', height: '180px', backgroundSize: 'cover' }} />
 													</Grid>
 												</Grid>
 											</div>

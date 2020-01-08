@@ -1,12 +1,8 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+//material-ui
 import { makeStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
-import TextField from '@material-ui/core/TextField';
-import CardContent from '@material-ui/core/CardContent';
-import Card from '@material-ui/core/Card';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
+import { Grid, Card, Button, CardContent, TextField, Typography } from "@material-ui/core";
+//config
 import { login } from '../config/api';
 
 const cardStyles = makeStyles({
@@ -53,20 +49,9 @@ export default class Login extends Component {
 			window.location = '/home';
 		} else {
 			return (
-				<div
-					style={{
-						display: 'flex',
-						justifyContent: 'center',
-						alignItems: 'center',
-						height: '100vh',
-						backgroundColor: '#ff5252'
-					}}
-				>
+				<div style={{display: 'flex',justifyContent: 'center',alignItems: 'center',height: '100vh',backgroundColor: '#ff5252'}}>
 					<Grid item xs={12}>
-						<Card
-							className={cardStyles.card}
-							style={{ margin: 'auto', width: '50%', backgroundColor: '#fbe9e7', color: 'black' }}
-						>
+						<Card className={cardStyles.card} style={{ margin: 'auto', width: '50%', backgroundColor: '#fbe9e7', color: 'black' }}>
 							<CardContent>
 								<Grid container direction="column" justify="center" alignItems="center">
 									<form
@@ -78,7 +63,6 @@ export default class Login extends Component {
 										<div style={{ width: '100%', margin: 'auto' }}>
 											<Typography variant="h4">Sign in with username</Typography>
 										</div>
-
 										<TextField
 											id="standard-basic"
 											value={this.state.username}

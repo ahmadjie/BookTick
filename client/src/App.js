@@ -10,6 +10,7 @@ import MyTicket from './pages/MyTickets';
 import AddEvent from './pages/AddEvent';
 import Payment from './pages/Payments';
 import PaymentDetail from './pages/PaymentDetail';
+import EventsBySearch from './components/EventsBySearch'
 import { getUser } from './_actions/user';
 import { connect } from 'react-redux';
 import './App.css';
@@ -23,6 +24,9 @@ class App extends Component {
 			<div>
 				<Router>
 					<Switch>
+						<Route path="/search/:keyword">
+							<EventsBySearch />
+						</Route>
 						<Route path="/payment/:id">
 							<PaymentDetail />
 						</Route>

@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
+//components
 import Header from '../components/Header';
-import { Typography, Container, Grid } from '@material-ui/core';
 import Footer from '../components/Footer';
+//material-ui
+import { Typography, Container, Grid } from '@material-ui/core';
+//others
 import axios from 'axios';
 import { withRouter } from 'react-router';
 
@@ -29,13 +32,11 @@ class MyTicket extends Component {
 		if (!checkToken) {
 			window.location = '/login';
 		} else {
-
 			const img =
 				'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/QR_code_for_mobile_English_Wikipedia.svg/1200px-QR_code_for_mobile_English_Wikipedia.svg.png';
 			return (
 				<div>
 					<Header />
-
 					<Container maxWidth="md" style={{ marginTop: '50px' }}>
 						<Typography
 							variant="h5"
@@ -50,26 +51,13 @@ class MyTicket extends Component {
 						>
 							My Ticket
 						</Typography>
-						<div
-							style={{
-								borderTop: '8px solid rgb(255, 18, 18)',
-								backgroundColor: '#fff',
-								padding: '10px'
-							}}
-						>
+						<div style={{borderTop: '8px solid rgb(255, 18, 18)',backgroundColor: '#fff',padding: '10px'}}>
 							<Container maxWidth="md">
 								{this.state.orders.map((order) => {
 									return (
 										<div style={{ backgroundColor: '#ff5252', padding: '20px', marginTop: '40px' }}>
 											<div style={{ backgroundColor: '#fff' }}>
-												<div
-													style={{
-														backgroundColor: '#ccc',
-														padding: '5px 10px',
-														display: 'flex',
-														justifyContent: 'space-between'
-													}}
-												>
+												<div style={{backgroundColor: '#ccc',padding: '5px 10px',display: 'flex',justifyContent: 'space-between'}}>
 													<Grid item xs={2}>
 														<Typography variant="body1">{order.buyer.name}</Typography>
 														<Typography
@@ -118,14 +106,7 @@ class MyTicket extends Component {
 															<Typography variant="body2">{order.event.address}</Typography>
 														</Grid>
 														<Grid item sm={2}>
-															<div
-																style={{
-																	backgroundImage: `url(${img})`,
-																	width: '180px',
-																	height: '180px',
-																	backgroundSize: 'cover'
-																}}
-															/>
+															<div style={{backgroundImage: `url(${img})`,width: '180px',height: '180px',backgroundSize: 'cover'}}/>
 														</Grid>
 													</Grid>
 												</div>

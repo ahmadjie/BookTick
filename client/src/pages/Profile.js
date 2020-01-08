@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
+//components
 import Header from '../components/Header';
+import ProfileComponent from '../components/Profile';
+import EditProfile from '../components/EditProfile';
+import Footer from '../components/Footer';
+//material ui
 import { Grid, CardMedia, Button, Typography, Card, CardActionArea, CardContent, Avatar } from '@material-ui/core';
+//otherss
 import { withRouter } from 'react-router';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import axios from 'axios';
 import { connect } from 'react-redux';
-import ProfileComponent from '../components/Profile';
-import EditProfile from '../components/EditProfile';
-import Footer from '../components/Footer';
 
 class Profile extends Component {
 	state = {
