@@ -84,10 +84,7 @@ And for backend:
 ## Screenshots
 * Home Page :
 <img src="screenshot/home.png" />
-* Event Details:
-<img src="screenshot/eventDetails.png" />
-* Payment Page :
-<img src="screenshot/payment.png" />
+[more](https://github.com/ahmadjie/BookTick/tree/master/screenshot)
 
 ## Built With
 
