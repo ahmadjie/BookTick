@@ -85,6 +85,10 @@ And for backend:
 * Home Page :
 <img src="screenshot/home.png" />
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+
+>>>>>>> b093baab94ae044b5aeb981d183013eb5925132b
 =======
 
 >>>>>>> b093baab94ae044b5aeb981d183013eb5925132b
