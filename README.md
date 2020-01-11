@@ -84,7 +84,7 @@ And for backend:
 ## Screenshots
 * Home Page :
 <img src="screenshot/home.png" />
-[more](https://github.com/ahmadjie/BookTick/tree/master/screenshot)
+### [more screenshot](https://github.com/ahmadjie/BookTick/tree/master/screenshot)
 
 ## Built With
 
