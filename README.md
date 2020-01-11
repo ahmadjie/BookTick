@@ -1,6 +1,6 @@
 # BOOKTICK
 
-Get your event tickets with Dumbtick: the convenient, paperless, ticketing solution. Now you can create events, organize events, sell event tickets yourself, make event invitations online
+Get your event tickets with BOOKTICK: the convenient, paperless, ticketing solution. Now you can create events, organize events, sell event tickets yourself, make event invitations online
 
 ## Table of Contents
 
@@ -84,14 +84,7 @@ And for backend:
 ## Screenshots
 * Home Page :
 <img src="screenshot/home.png" />
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
 
->>>>>>> b093baab94ae044b5aeb981d183013eb5925132b
-=======
-
->>>>>>> b093baab94ae044b5aeb981d183013eb5925132b
 ### [more screenshot](https://github.com/ahmadjie/BookTick/tree/master/screenshot)
 
 ## Built With
