@@ -82,11 +82,11 @@ And for backend:
 
 
 ## Screenshots
-### Home Page :
+* Home Page :
 <img src="screenshot/home.png" />
-### Event Details:
+* Event Details:
 <img src="screenshot/eventDetails.png" />
-### Payment Page :
+* Payment Page :
 <img src="screenshot/payment.png" />
 
 ## Built With
