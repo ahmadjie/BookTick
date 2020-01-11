@@ -1,4 +1,4 @@
-# dumbtick-app
+# BOOKTICK
 
 Get your event tickets with Dumbtick: the convenient, paperless, ticketing solution. Now you can create events, organize events, sell event tickets yourself, make event invitations online
 
