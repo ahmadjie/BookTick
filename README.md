@@ -1,6 +1,6 @@
 # BOOKTICK
 
-Get your event tickets with BOOKTICK: the convenient, paperless, ticketing solution. Now you can create events, organize events, sell event tickets yourself, make event invitations online
+Get your event tickets with BOOKTICK: the convenient, paperless, ticketing solution. Now you can create events, organize events, sell event tickets yourself, make event invitations online, buy tickets everywhere and anywhere.
 
 ## Table of Contents
 
@@ -38,7 +38,7 @@ First, clone this repository into your system.
 git clone https://github.com/ahmadjie/BookTick.git
 ```
 
-Then, install all the packages that described in `package.json` of both `frontend` and `backend` directories.
+Then, install all the packages that described in `client/package.json`  directories.
 
 ```
 npm install
@@ -46,13 +46,13 @@ npm install
 
 ### Server Setup
 
-For the server setup, first, make sure your MySQL services is running fine. In `server` directory, you'll find `config.json` inside `config` folder. Open and edit the `development` configuration to match your database setup.
+For the server setup, first, make sure your MySQL services is running fine, then create new database. Open your `server` directories you'll find `config.json` inside `config` folder. Open and edit the `development` configuration to match your database setup.
 
 ```
   "development": {
     "username": "root",
     "password": null,
-    "database": "database_development",
+    "database": "your_database_name",
     "host": "127.0.0.1",
     "dialect": "mysql"
   },

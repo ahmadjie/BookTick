@@ -16,41 +16,40 @@ app.use(cors());
 app.use(bodyParser.json());
 
 app.group('/api/v1', (router) => {
-	//task 1
-	router.get('/categories', categoriesController.index);
-	router.get('/category/:id', categoriesController.byId);
+	//events
 	router.get('/events', eventsController.allEvents);
 	router.get('/event/', eventsController.eventsByTitle);
 	router.post('/event/', middleware.checkAuth, eventsController.addEvent);
 	router.get('/today/events', eventsController.today);
 	router.get('/upcoming/events', eventsController.upComing);
-	//task 2
 	router.get('/category/:id/events', eventsController.eventsByCategory);
-	//task 3
+	router.get('/event/:id', eventsController.eventsByid);
+
+	//category
+	router.get('/categories', categoriesController.index);
+	router.get('/category/:id', categoriesController.byId);
+
+	//login & register
 	router.post('/login', authController.login);
-	//task 4
 	router.post('/register', authController.register);
 
-	//task 6
-	router.get('/event/:id', eventsController.eventsByid);
+	//order = payment & myTicket
 	router.post('/order', middleware.checkAuth, orderController.addOrder);
-
-	//task 7
-	router.get('/profile/:id', userController.userById);
-	router.get('/profile', middleware.checkAuth, userController.userByLogin);
-	router.put('/profile', middleware.checkAuth, userController.editProfile);
-	//lihat seluruh order
 	router.get('/orders', orderController.index);
 	router.get('/user/orders', middleware.checkAuth, orderController.orderByStatus);
 	router.get('/order/:id', middleware.checkAuth, orderController.orderById);
 	router.put('/order', middleware.checkAuth, orderController.confirmOrderById);
 
+	//profile
+	router.get('/profile/:id', userController.userById);
+	router.get('/profile', middleware.checkAuth, userController.userByLogin);
+	router.put('/profile', middleware.checkAuth, userController.editProfile);
+
 	//favorites
 	router.get('/user/favorite', middleware.checkAuth, favoriteController.favoriteByUser);
 	router.post('/favorite', middleware.checkAuth, favoriteController.addFavorite);
 
-	//task1 belom jadi
-	// router.get('/events/:time', eventsController.eventsByTime);
+
 });
 
 app.listen(port, () => console.log(`run on port ${port}`));
