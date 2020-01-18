@@ -101,7 +101,7 @@ class AddEvent extends Component {
             <h1 style={{ color: "#ff5252" }}> Add Event </h1>
             <Grid container direction="column" justify="center" alignItems="center" spacing={5}>
               <Grid item style={{ width: "90%", marginTop: "5%", margin: "auto" }}>
-                <form onSubmit={this.onSubmit}>
+                <form>
                   <TextField name="title"
                     value={this.state.title}
                     onChange={this.onChangeTitle}
@@ -201,7 +201,7 @@ class AddEvent extends Component {
                   <br />
                   <img src={this.state.image} style={{ width: "100%", marginTop: "5%" }} />
                   <div style={{ width: "100%", marginTop: "5%" }}>
-                    <Button variant="contained" type="submit" style={{ backgroundColor: "#ff5252", color: "white" }}>
+                    <Button variant="contained" onClick={this.onSubmit} style={{ backgroundColor: "#ff5252", color: "white" }}>
                       Publish
                     </Button>
                   </div>

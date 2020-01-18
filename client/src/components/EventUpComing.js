@@ -1,37 +1,49 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { getEventsUpComing } from '../_actions/events';
+import { getFavorite } from '../_actions/favorite';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { CardMedia, Button } from '@material-ui/core';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import { favorite } from '../config/api';
 
 export class EventUpComing extends Component {
-    state = {
-        eventId: 0
-    };
+
     componentDidMount() {
         this.props.getEventsUpComing();
+        this.props.getFavorite();
     }
 
-    handleLikeClick = (id) => () => {
-        //change state after click
-        this.setState({ eventId: id });
+    handleLikeClick = (id) => {
+        const favoriteEvent = {
+            eventId: id
+        };
+        favorite(favoriteEvent).then(res => {
+            if (res === undefined) {
+                window.location = "/login"
+            } else if (res.data === "you already favorite this events") {
+                alert("you already favorite this events")
+            } else {
+                window.location.reload()
+            }
+        });
     };
 
     render() {
         const { data, isLoading, error } = this.props.events;
-        //get state eventid
-        const favoriteEvent = {
-            eventId: this.state.eventId
-        };
-        favorite(favoriteEvent);
+        const { favorites } = this.props.favorite;
 
+        let idEventFavorite = []
+        if (favorites.length > 0) {
+            favorites.map((favorite) => {
+                idEventFavorite.push(favorite.eventId)
+            })
+        }
         if (isLoading) {
             return <div>Mohon Tunggu</div>;
         }
@@ -48,64 +60,64 @@ export class EventUpComing extends Component {
             <div style={{ marginTop: '3%' }}>
                 <h1 style={{ marginTop: '2%', color: '#ff5252' }}>Up Coming</h1>
                 <Grid container style={{ marginTop: '2%' }}>
-                    {data.map((item) => {
-                        return (
-                            <Grid item xs={4} style={{ marginBottom: '2%' }}>
-                                <div style={{ margin: '5px' }}>
-                                    <Card>
-                                        <CardActionArea>
-                                            <Button
-                                                disabled
-                                                style={{
-                                                    position: 'absolute',
-                                                    top: '10px',
-                                                    right: '10px',
-                                                    backgroundColor: '#ff5252',
-                                                    padding: '10px'
-                                                }}
-                                            >
-                                                <Typography
-                                                    variant="h6"
-                                                    color="textSecondary"
+                    {
+                        data.map((item) => {
+                            return (
+                                <Grid item xs={4} style={{ marginBottom: '2%' }}>
+                                    <div style={{ margin: '5px' }}>
+                                        <Card>
+                                            <CardActionArea>
+                                                <Button
+                                                    disabled
                                                     style={{
-                                                        color: 'white',
-                                                        fontSize: '14px'
+                                                        position: 'absolute',
+                                                        top: '10px',
+                                                        right: '10px',
+                                                        backgroundColor: '#ff5252',
+                                                        padding: '10px'
                                                     }}
                                                 >
-                                                    Rp. {item.price}
-                                                </Typography>
-                                            </Button>
-                                            <CardMedia component="img" height="250px" image={item.image} />
-                                            <CardContent>
-                                                <Grid container style={{ display: 'flex' }}>
-                                                    <Grid item xs={10}>
-                                                        <Link
-                                                            to={`/event/${item.id}`}
-                                                            style={{ textDecoration: 'none', color: 'black' }}
-                                                        >
-                                                            <Typography gutterBottom variant="h5" component="h2">
-                                                                {item.title.substring(0, 30)}
-                                                            </Typography>
-                                                        </Link>
+                                                    <Typography
+                                                        variant="h6"
+                                                        color="textSecondary"
+                                                        style={{
+                                                            color: 'white',
+                                                            fontSize: '14px'
+                                                        }}
+                                                    >
+                                                        Rp. {item.price}
+                                                    </Typography>
+                                                </Button>
+                                                <CardMedia component="img" height="250px" image={item.image} />
+                                                <CardContent>
+                                                    <Grid container style={{ display: 'flex' }}>
+                                                        <Grid item xs={10}>
+                                                            <Link
+                                                                to={`/event/${item.id}`}
+                                                                style={{ textDecoration: 'none', color: 'black' }}
+                                                            >
+                                                                <Typography gutterBottom variant="h5" component="h2">
+                                                                    {item.title.substring(0, 30)}
+                                                                </Typography>
+                                                            </Link>
+                                                        </Grid>
+                                                        <Grid item xs={1} style={{ marginTop: '2%' }}>
+                                                            <FavoriteIcon
+                                                                style={{ color: idEventFavorite.includes(item.id) ? 'salmon' : 'grey' }}
+                                                                onClick={() => this.handleLikeClick(item.id)}
+                                                            />
+                                                        </Grid>
                                                     </Grid>
-                                                    <Grid item xs={1} style={{ marginTop: '2%' }}>
-                                                        <FavoriteIcon
-                                                            style={{ color: 'salmon' }}
-                                                            onClick={this.handleLikeClick(item.id)}
-                                                        />
-                                                    </Grid>
-                                                </Grid>
-
-                                                <Typography variant="body2" color="textSecondary" component="p">
-                                                    {item.description.substring(0, 60)}
-                                                </Typography>
-                                            </CardContent>
-                                        </CardActionArea>
-                                    </Card>
-                                </div>
-                            </Grid>
-                        );
-                    })}
+                                                    <Typography variant="body2" color="textSecondary" component="p">
+                                                        {item.description.substring(0, 60)}
+                                                    </Typography>
+                                                </CardContent>
+                                            </CardActionArea>
+                                        </Card>
+                                    </div>
+                                </Grid>
+                            );
+                        })}
                 </Grid>
             </div>
         );
@@ -114,7 +126,8 @@ export class EventUpComing extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        events: state.eventsUpComing
+        events: state.eventsUpComing,
+        favorite: state.favorite
     };
 };
 
@@ -122,6 +135,9 @@ const mapDispatchToProps = (dispatch) => {
     return {
         getEventsUpComing: () => {
             dispatch(getEventsUpComing());
+        },
+        getFavorite: () => {
+            dispatch(getFavorite());
         }
     };
 };

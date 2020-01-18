@@ -1,6 +1,5 @@
 import React from 'react';
 import { Grid } from '@material-ui/core';
-import { minHeight } from '@material-ui/system';
 
 const FooterSecondary = () => (
 	<div

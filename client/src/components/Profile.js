@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Grid, Button, Typography, Avatar } from '@material-ui/core';
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 class ProfileComponent extends Component {

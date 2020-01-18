@@ -14,7 +14,6 @@ exports.allEvents = (req, res) => {
 	});
 };
 
-//task 1 event by time belom
 exports.eventsByTitle = (req, res) => {
 	const title = req.query.title;
 	Events.findAll({
@@ -49,7 +48,6 @@ exports.eventsByTitle = (req, res) => {
 	});
 };
 
-//task 2
 exports.eventsByCategory = (req, res) => {
 	const { id } = req.params;
 	Events.findAll({
@@ -78,7 +76,6 @@ exports.eventsByCategory = (req, res) => {
 	}).then((data) => res.send(data));
 };
 
-//task 6
 exports.eventsByid = (req, res) => {
 	const { id } = req.params;
 	Events.findOne({

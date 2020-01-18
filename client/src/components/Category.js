@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { getCategories } from '../_actions/categories';
 import Grid from '@material-ui/core/Grid';
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Button } from '@material-ui/core';
 
 class Category extends Component {

@@ -27,7 +27,16 @@ export const register = (user) => {
 			image: 'https://reactjs.org/logo-og.png'
 		})
 		.then((response) => {
-			localStorage.setItem('token', response.data.data.token);
+			if (response.data.message === "success") {
+				localStorage.setItem('token', response.data.token);
+				return response
+			} else if (response.data === "email already") {
+				return response
+			} else if (response.data === "username already") {
+				return response
+			} else {
+				return response
+			}
 		})
 		.catch((err) => {
 			console.log(err);
@@ -50,8 +59,7 @@ export const favorite = (eventId) => {
 		)
 		.then((response) => {
 			if (response) {
-				// localStorage.setItem('token', response.data.data.token);
-				// return response.data;
+				return response
 			} else {
 				alert('eror');
 			}

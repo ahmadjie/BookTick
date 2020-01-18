@@ -6,31 +6,30 @@ import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { CardMedia, Button } from '@material-ui/core';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import { favorite } from '../config/api';
 
 export class EventToday extends Component {
-    state = {
-        eventId: 0
-    };
+
     componentDidMount() {
         this.props.getEventsToday();
     }
 
-    handleLikeClick = (id) => () => {
-        //change state after click
-        this.setState({ eventId: id });
+    handleLikeClick = (id) => {
+        const favoriteEvent = {
+            eventId: id
+        };
+        favorite(favoriteEvent).then(res => {
+            if (res.data === "you already favorite this events") {
+                alert("you already favorite this events")
+            }
+        });
     };
 
     render() {
         const { data, isLoading, error } = this.props.events;
-        //get state eventid
-        const favoriteEvent = {
-            eventId: this.state.eventId
-        };
-        favorite(favoriteEvent);
 
         if (isLoading) {
             return <div>Mohon Tunggu</div>;
@@ -91,7 +90,7 @@ export class EventToday extends Component {
                                                     <Grid item xs={1} style={{ marginTop: '2%' }}>
                                                         <FavoriteIcon
                                                             style={{ color: 'salmon' }}
-                                                            onClick={this.handleLikeClick(item.id)}
+                                                            onClick={() => this.handleLikeClick(item.id)}
                                                         />
                                                     </Grid>
                                                 </Grid>

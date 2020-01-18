@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -7,10 +7,9 @@ import IconButton from '@material-ui/core/IconButton';
 import Avatar from '@material-ui/core/Avatar';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
-import axios from 'axios';
 import { connect } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
@@ -49,6 +48,7 @@ function Header(props) {
 	//handle click logout
 	const onSubmit = () => {
 		localStorage.clear();
+		window.location.reload();
 	};
 	return (
 		<div>
@@ -116,7 +116,7 @@ function Header(props) {
 					)}
 					{auth || (
 						<div>
-							<Link to="/Register" style={{ textDecoration: 'none' }}>
+							<Link to="/register" style={{ textDecoration: 'none' }}>
 								<Button
 									variant="contained"
 									style={{ marginRight: '10px', backgroundColor: '#ff5252', color: '#fafafa' }}

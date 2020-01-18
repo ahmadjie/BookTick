@@ -16,7 +16,7 @@ import FavoriteIcon from "@material-ui/icons/Favorite";
 
 //others
 import axios from "axios";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { withRouter } from "react-router";
 
 class CategoriesDetails extends Component {

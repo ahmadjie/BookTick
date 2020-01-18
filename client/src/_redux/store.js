@@ -1,7 +1,8 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { categories } from '../_reducers/categories';
-import { events, eventsToday,eventsUpComing } from '../_reducers/events';
+import { events, eventsToday, eventsUpComing } from '../_reducers/events';
 import { userDetail } from '../_reducers/user';
+import { favorite } from '../_reducers/favorite';
 import { promise, logger } from './middleware';
 
 //get alll reducer
@@ -11,7 +12,8 @@ const rootReducers = combineReducers({
 	events,
 	userDetail,
 	eventsToday,
-	eventsUpComing
+	eventsUpComing,
+	favorite
 });
 
 //setup store redux

@@ -52,7 +52,7 @@ class EditProfile extends Component {
   };
 
   render() {
-    const { data, isLoading, eror } = this.props.user;
+    const { isLoading, eror } = this.props.user;
     if (isLoading) {
       return (
         <div>
@@ -75,9 +75,10 @@ class EditProfile extends Component {
         </div>
         <Grid container>
           <Grid item xs={9}>
-            <form onSubmit={this.onSubmit}>
+            <form>
               <TextField
                 label="Name"
+                name="name"
                 value={this.state.name}
                 onChange={this.onChangeName}
                 required
@@ -87,6 +88,7 @@ class EditProfile extends Component {
               <br />
               <TextField
                 label="Email"
+                name="Email"
                 value={this.state.email}
                 onChange={this.onChangeEmail}
                 required
@@ -96,6 +98,7 @@ class EditProfile extends Component {
               <br />
               <TextField
                 label="Phone"
+                name="Phone"
                 value={this.state.phone}
                 onChange={this.onChangePhone}
                 required
@@ -105,6 +108,7 @@ class EditProfile extends Component {
               <br />
               <TextField
                 label="Image"
+                name="Image"
                 value={this.state.image}
                 onChange={this.onChangeImage}
                 required
@@ -137,7 +141,7 @@ class EditProfile extends Component {
                   marginTop: "10px",
                   marginLeft: "10px"
                 }}
-                type="submit"
+                onClick = {this.onSubmit}
               >
                 Save
               </Button>

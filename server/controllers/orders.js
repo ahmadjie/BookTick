@@ -24,20 +24,20 @@ exports.addOrder = (req, res) => {
 exports.index = (req, res) => {
 	Order.findAll({
 		attributes: {
-			exclude: [ 'createdAt', 'updatedAt', 'eventId', 'categoryId', 'userId', 'buyerId' ]
+			exclude: ['createdAt', 'updatedAt', 'eventId', 'categoryId', 'userId', 'buyerId']
 		},
 		include: [
 			{
 				model: Events,
 				as: 'event',
 				attributes: {
-					exclude: [ 'createdAt', 'updatedAt', 'categoryId', 'userId', 'urlmaps', 'endTime', 'image' ]
+					exclude: ['createdAt', 'updatedAt', 'categoryId', 'userId', 'urlmaps', 'endTime', 'image']
 				}
 			},
 			{
 				model: User,
 				as: 'buyer',
-				attributes: [ 'id', 'name' ]
+				attributes: ['id', 'name']
 			}
 		]
 	}).then((data) => {
@@ -52,17 +52,17 @@ exports.orderByStatus = (req, res) => {
 			buyerId: tokenUserId,
 			status
 		},
-		attributes: [ 'id', 'status', 'totalPrice', 'quantity' ],
+		attributes: ['id', 'status', 'totalPrice', 'quantity'],
 		include: [
 			{
 				model: Events,
 				as: 'event',
-				attributes: [ 'id', 'price', 'description', 'title', 'image', 'address', 'starTime' ]
+				attributes: ['id', 'price', 'description', 'title', 'image', 'address', 'starTime']
 			},
 			{
 				model: User,
 				as: 'buyer',
-				attributes: [ 'id', 'name' ]
+				attributes: ['id', 'name']
 			}
 		]
 	})
@@ -95,17 +95,17 @@ exports.orderById = (req, res) => {
 			buyerId: tokenUserId,
 			status
 		},
-		attributes: [ 'id', 'status', 'totalPrice', 'quantity' ],
+		attributes: ['id', 'status', 'totalPrice', 'quantity'],
 		include: [
 			{
 				model: Events,
 				as: 'event',
-				attributes: [ 'id', 'price', 'description', 'title', 'image', 'address', 'starTime' ]
+				attributes: ['id', 'price', 'description', 'title', 'image', 'address', 'starTime']
 			},
 			{
 				model: User,
 				as: 'buyer',
-				attributes: [ 'id', 'name' ]
+				attributes: ['id', 'name']
 			}
 		]
 	})
@@ -127,8 +127,6 @@ exports.orderById = (req, res) => {
 
 exports.confirmOrderById = (req, res) => {
 	const { id, attachment } = req.body;
-	// const id = req.body.id;
-	// const attachment = req.body.attachment;
 
 	Order.findOne({
 		where: {

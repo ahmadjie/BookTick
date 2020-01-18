@@ -4,6 +4,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Grid, Card, Button, CardContent, TextField, Typography } from "@material-ui/core";
 //config
 import { register } from '../config/api';
+//others
+import { Link } from 'react-router-dom';
 
 const cardStyles = makeStyles({
 	card: {
@@ -18,9 +20,34 @@ export default class Register extends Component {
 			username: '',
 			password: '',
 			name: '',
-			email: ''
+			email: '',
+			message: '',
+			textErrorEmail: null,
+			requiredActiveEmail: true,
+			errorActiveEmail: null,
+			textErrorUsername: null,
+			requiredActiveUsername: true,
+			errorActiveUsername: null,
 		};
 	}
+
+	handleEmail = () => {
+		this.setState({
+			message: '',
+			requiredActiveEmail: true,
+			errorActiveEmail: null,
+			textErrorEmail: null
+		})
+	}
+	handleUsername = () => {
+		this.setState({
+			message: '',
+			requiredActiveUsername: true,
+			errorActiveUsername: null,
+			textErrorUsername: null
+		})
+	}
+
 	onChangeEmail = (e) => {
 		this.setState({ email: e.target.value });
 	};
@@ -39,12 +66,28 @@ export default class Register extends Component {
 			username: this.state.username,
 			password: this.state.password,
 			name: this.state.name,
-			email: this.state.email
+			email: this.state.email,
 		};
 
-		register(user).then(() => {
-			if (localStorage.getItem('token')) {
+		register(user).then((response) => {
+			if (response.data.message === "success") {
 				window.location = '/home';
+			} else if (response.data === "email already") {
+				this.setState({
+					email: '',
+					requiredActiveEmail: null,
+					errorActiveEmail: true,
+					textErrorEmail: "Email already taken"
+				})
+			} else if (response.data === "username already") {
+				this.setState({
+					username: '',
+					requiredActiveUsername: null,
+					errorActiveUsername: true,
+					textErrorUsername: "Username already taken"
+				})
+			} else {
+				this.setState({ message: 'Something Error' })
 			}
 		});
 	};
@@ -57,63 +100,74 @@ export default class Register extends Component {
 			return (
 				<div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', backgroundColor: '#ff5252' }}>
 					<Grid item xs={12}>
-						<Card className={cardStyles.card} style={{ margin: 'auto', width: '50%', backgroundColor: '#fbe9e7', color: 'black' }}>
+						<Card className={cardStyles.card} style={{ margin: 'auto', width: '50%' }}>
 							<CardContent>
 								<Grid container direction="column" justify="center" alignItems="center">
+									<div style={{ marginTop: '5%' }}>
+										<Typography variant="h4">Register</Typography>
+									</div>
+									<div style={{ height: '2px', width: '122px', margin: 'auto', backgroundColor: '#ff5252' }}></div>
+									<div style={{ color: 'red', fontWeight: 'bold' }}>
+										<p>{this.state.message}</p>
+									</div>
 									<form
 										onSubmit={this.onSubmit}
 										autoComplete="off"
 										fullWidth
-										style={{ textAlign: 'center', itemAlign: 'center', marginTop: '4%' }}
+										style={{ justifyContent: 'center', alignItems: 'center', width: '75%', margin: 'auto', display: 'flex', flexDirection: 'column' }}
 									>
-										<div style={{ width: '100%', margin: 'auto' }}>
-											<Typography variant="h4">Register DumbTick</Typography>
-										</div>
 										<TextField
-											id="standard-basic"
+											id="Email"
 											value={this.state.email}
 											onChange={this.onChangeEmail}
 											label="Email"
-											required
-											style={{ width: '100%' }}
+											required={this.state.requiredActiveEmail}
+											error={this.state.errorActiveEmail}
+											onClick={this.handleEmail}
+											helperText={this.state.textErrorEmail}
+											style={{ width: '50%', marginBottom : '2%' }}
 										/>
-										<br />
+
 										<TextField
-											id="standard-basic"
+											id="Name"
 											value={this.state.name}
 											onChange={this.onChangeName}
 											label="Name"
 											required
-											style={{ width: '100%' }}
+											style={{ width: '50%', marginBottom : '2%' }}
 										/>
-										<br />
+
 										<TextField
-											id="standard-basic"
+											id="Username"
 											value={this.state.username}
 											onChange={this.onChangeUsername}
 											label="Username"
-											required
-											style={{ width: '100%' }}
+											required={this.state.requiredActiveUsername}
+											error={this.state.errorActiveUsername}
+											onClick={this.handleUsername}
+											helperText={this.state.textErrorUsername}
+											style={{ width: '50%', marginBottom : '2%' }}
 										/>
-										<br />
+
 										<TextField
-											id="standard-basic"
+											id="Password"
 											label="Password"
 											required
 											type="password"
 											value={this.state.password}
 											onChange={this.onChangePassword}
-											style={{ width: '100%' }}
+											style={{ width: '50%' }}
 										/>
-										<br />
+
 										<Button
 											variant="outlined"
 											type="submit"
-											style={{ marginTop: '5%', width: '100%' }}
+											style={{ width: '50%', marginTop: '7%', marginBottom: '5%', backgroundColor: '#ff5252', color: 'white' }}
 										>
 											Register
 										</Button>
 									</form>
+									<Typography variant="body2">Already have an account?  <Link to='/login' style={{ textDecoration: 'none', color: '#ff5252' }}>Sign in</Link></Typography>
 								</Grid>
 							</CardContent>
 						</Card>

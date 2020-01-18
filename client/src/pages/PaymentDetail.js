@@ -185,31 +185,29 @@ class PaymentDetail extends Component {
 											Prove Payment
 										</Typography>
 									</Grid>
-									<form onSubmit={this.onSubmit}>
-										<Grid container>
-											<Grid item xs={6} style={{ marginTop: '10px' }}>
-												<img src={this.state.attachment} style={{ width: '100%' }} />
-												<TextField
-													id="standard-basic"
-													label="Upload Bukti Pembayaran"
-													value={this.state.attachment}
-													onChange={this.onChangeAttachment}
-													required
-													style={{ width: '100%' }}
-												/>
-											</Grid>
-											<Grid item xs={6} style={{ marginTop: '10px', textAlign: 'end' }}>
-												<Button
-													large
-													variant="contained"
-													style={{ backgroundColor: '#ff5252', color: '#fff' }}
-													type="submit"
-												>
-													Confirm
-												</Button>
-											</Grid>
+									<Grid container>
+										<Grid item xs={6} style={{ marginTop: '10px' }}>
+											<img src={this.state.attachment} style={{ width: '100%' }} />
+											<TextField
+												id="standard-basic"
+												label="Upload Bukti Pembayaran"
+												value={this.state.attachment}
+												onChange={this.onChangeAttachment}
+												required
+												style={{ width: '100%' }}
+											/>
 										</Grid>
-									</form>
+										<Grid item xs={6} style={{ marginTop: '10px', textAlign: 'end' }}>
+											<Button
+												large
+												variant="contained"
+												style={{ backgroundColor: '#ff5252', color: '#fff' }}
+												onClick={this.onSubmit}
+											>
+												Confirm
+												</Button>
+										</Grid>
+									</Grid>
 								</Container>
 							</div>
 						</div>

@@ -1,37 +1,50 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { getEvents } from '../_actions/events';
+import { getFavorite } from '../_actions/favorite';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { CardMedia, Button } from '@material-ui/core';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import { favorite } from '../config/api';
 
 export class Event extends Component {
-	state = {
-		eventId: 0
-	};
+
 	componentDidMount() {
 		this.props.getEvents();
+		this.props.getFavorite();
 	}
 
-	handleLikeClick = (id) => () => {
-		//change state after click
-		this.setState({ eventId: id });
-	};
+	handleLikeClick = (id) => {
+        const favoriteEvent = {
+            eventId: id
+        };
+        favorite(favoriteEvent).then(res => {
+            if (res === undefined) {
+                window.location = "/login"
+            } else if (res.data === "you already favorite this events") {
+                alert("you already favorite this events")
+            } else {
+                window.location.reload()
+            }
+        });
+    };
 
 	render() {
 		const { data, isLoading, error } = this.props.events;
-		//get state eventid
-		const favoriteEvent = {
-			eventId: this.state.eventId
-		};
-		favorite(favoriteEvent);
+		const { favorites } = this.props.favorite;
 
+        let idEventFavorite = []
+
+		if(favorites.length > 0){
+        favorites.map((favorite) => {
+            idEventFavorite.push(favorite.eventId)
+        })
+	}
 		if (isLoading) {
 			return <div>Mohon Tunggu</div>;
 		}
@@ -90,8 +103,8 @@ export class Event extends Component {
 													</Grid>
 													<Grid item xs={1} style={{ marginTop: '2%' }}>
 														<FavoriteIcon
-															style={{ color: 'salmon' }}
-															onClick={this.handleLikeClick(item.id)}
+															style={{ color: idEventFavorite.includes(item.id) ? 'salmon' : 'grey' }}
+															onClick={() => this.handleLikeClick(item.id)}
 														/>
 													</Grid>
 												</Grid>
@@ -114,7 +127,8 @@ export class Event extends Component {
 
 const mapStateToProps = (state) => {
 	return {
-		events: state.events
+		events: state.events,
+		favorite: state.favorite
 	};
 };
 
@@ -122,7 +136,10 @@ const mapDispatchToProps = (dispatch) => {
 	return {
 		getEvents: () => {
 			dispatch(getEvents());
-		}
+		},
+        getFavorite: () => {
+            dispatch(getFavorite());
+        }
 		// userSetFavoriteEvent: (eventId) => {
 		// 	dispatch(userSetFavoriteEvent(eventId));
 		// }
